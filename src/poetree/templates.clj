@@ -25,7 +25,8 @@
   [:div {:class "tweet-button"}
    [:a
     {:class "twitter-share-button"
-     :href (str "https://twitter.com/intent/tweet?text=" (codec/url-encode (str text " " link)))}
+     :href (str "https://twitter.com/intent/tweet?text=" (codec/url-encode (str text " " link)))
+     :target "_blank"}
     "Tweet"]])
 
 
