@@ -2,17 +2,24 @@
   (:require [ring.util.codec :as codec])
   (:use [hiccup.page :only (html5 include-css include-js)]))
 
-(defn page [title authorized? & content]
-  (html5
-   [:head
-    [:title title]
-    (include-css "css/poetree.css")
-    [:body
-     (if authorized?
-       [:a {:href "/logout"} "Logout"]
-       [:a {:href "/login"} "Login"])
+(defn page
+  ([title content]
+   (page title content nil))
+  ([title content user-name]
+   (println "user name: " user-name)
+   (html5
+    [:head
+     [:title title]
+     (include-css "css/poetree.css")
+     [:body
+      (when user-name
+        [:span (str "Hi, " user-name "!")])
+      " "
+      (if user-name
+        [:a {:href "/logout"} "Logout"]
+        [:a {:href "/login"} "Login"])]
      [:h1 title]
-     [:div {:class "container"} content ]]]))
+     [:div {:class "container"} content ]])))
 
 (defn tweet-button [link text]
   [:div {:class "tweet-button"}

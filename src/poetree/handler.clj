@@ -69,12 +69,12 @@
 
 (defroutes app-routes
   (GET "/" [] "Welcome to Poetree :: Login Page")
-  (GET "/feed" request (t/page
-                        "Poems Feed"
-                        (friend/authorized?
-                         #{::user}
-                         (friend/identity request))
-                        (t/view-feed (service/feed))))
+  (GET "/feed" request
+    (t/page
+     "Poems Feed"
+     (t/view-feed (service/feed))
+     (get-in (friend/current-authentication request)
+             [:identity :screen_name])))
   (GET "/fork" [id] "Create New")
   (GET "/fork/:id" [id] (service/fork id))
   (GET "/users" [] (service/users))
