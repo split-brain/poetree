@@ -15,6 +15,7 @@
                  ;; oauth stuff
                  [clj-oauth "1.5.2"]
                  [twitter-api "0.7.8"]
+                 [com.cemerick/friend "0.2.1"]
 
                  ;; logging
                  [com.taoensso/timbre "4.1.4"]
