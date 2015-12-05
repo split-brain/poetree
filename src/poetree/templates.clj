@@ -13,6 +13,13 @@
      [:h1 title]
      [:div {:class "container"} content ]]]))
 
+(defn tweet-button [link text]
+  [:a
+   {:class "twitter-share-button"
+    :href (str "https://twitter.com/intent/tweet?text=" (codec/url-encode (str text " " link)))}
+   "Tweet"])
+
+
 (defn view-feed [feed]
   [:div
    [:a {:href "/fork"} "Create New"]
@@ -38,9 +45,3 @@
 
      )]
   )
-
-(defn tweet-button [link text]
-  [:a
-   {:class "twitter-share-button"
-    :href (str "https://twitter.com/intent/tweet?text=" (codec/url-encode (str text " " link)))}
-   "Tweet"])
