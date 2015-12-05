@@ -75,8 +75,8 @@
      (t/view-feed (service/feed))
      (get-in (friend/current-authentication request)
              [:identity :screen_name])))
-  (GET "/fork" [id] "Create New")
-  (GET "/fork/:id" [id] (service/fork id))
+  (GET "/fork" [] (t/fork-view {}))
+  (GET "/fork/:id" [id] (t/fork-view (service/poem id)))
   (GET "/users" [] (service/users))
 
   (GET "/like/:id" [id] "NOT IMPLEMENTED")

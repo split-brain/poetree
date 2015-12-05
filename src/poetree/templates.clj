@@ -54,3 +54,11 @@
 
      )]
   )
+
+(defn view-poem [poem]
+  "TODO")
+
+(defn fork-view [poem]
+  "TODO"
+  
+  )

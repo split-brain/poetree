@@ -29,7 +29,8 @@
 
                  ;; sql dsl
                  [korma "0.4.2"]
-
+                 [org.clojure/java.jdbc "0.3.7"]
+                 
                  ;; misc
                  [org.clojure/core.match "0.3.0-alpha4"]
                  ;[mount "0.1.5"]
