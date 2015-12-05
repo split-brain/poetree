@@ -1,6 +1,7 @@
 (ns poetree.handler
   (:require [poetree.service :as service]
             [poetree.templates :as t]
+            [poetree.config :refer [app-config]]
             [compojure.core :refer :all]
             [compojure.route :as route]
             [ring.middleware.defaults :refer [wrap-defaults site-defaults]]
@@ -22,10 +23,9 @@
   (wrap-defaults app-routes site-defaults))
 
 (defn start-server [app]
-  (let [port (Integer/parseInt
-              (or (System/getenv "PORT") "8080"))]
-    (println "Server started!")
-    (http-server/run-server app {:port port :join? false})))
+  (let [port (get-in app-config [:server :port])]
+    (http-server/run-server app {:port port :join? false})
+    (println "Server listening on port " port)))
 
 (defstate server
           :start (start-server app)
