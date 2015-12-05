@@ -1,6 +1,6 @@
 (ns poetree.db
+  (:refer-clojure :exclude [update])
   (:require [korma.db :as korma]
-            ;; TODO remove conflict with clojure.core/update
             [korma.core :refer :all]
             [poetree.config :refer [app-config]]))
 
