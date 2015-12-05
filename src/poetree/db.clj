@@ -4,7 +4,16 @@
             [korma.core :refer :all]
             [poetree.config :refer [app-config]]))
 
-(korma/defdb db (korma/postgres (:database app-config)))
+(korma/defdb db (korma/postgres
+                 ;;(:database app-config)
+                 {:host "94.237.25.86"
+                  :port 5432
+                  :db "poetree"
+                  :scheme "public"
+                  :user "poetree"
+                  :password "poetree_pwd"
+                  }
+                 ))
 
 (declare users poems likers)
 

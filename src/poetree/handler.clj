@@ -66,6 +66,8 @@
 
   (GET "/like/:id" [id] "NOT IMPLEMENTED")
   (GET "/likers/:id" [id] (service/likers id))
+  login-logout-routes
+
   (route/resources "/")
   (route/not-found "TODO: ERROR PAGE"))
 

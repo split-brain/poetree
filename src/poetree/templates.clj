@@ -6,6 +6,7 @@
   (html5
    [:head
     [:title title]
+    (include-css "css/poetree.css")
     [:body
      (if authorized?
        [:a {:href "/logout"} "Logout"]
@@ -14,10 +15,11 @@
      [:div {:class "container"} content ]]]))
 
 (defn tweet-button [link text]
-  [:a
-   {:class "twitter-share-button"
-    :href (str "https://twitter.com/intent/tweet?text=" (codec/url-encode (str text " " link)))}
-   "Tweet"])
+  [:div {:class "tweet-button"}
+   [:a
+    {:class "twitter-share-button"
+     :href (str "https://twitter.com/intent/tweet?text=" (codec/url-encode (str text " " link)))}
+    "Tweet"]])
 
 
 (defn view-feed [feed]
