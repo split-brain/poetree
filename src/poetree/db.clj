@@ -3,7 +3,8 @@
   (:require [korma.db :as korma]
             [korma.core :refer :all]))
 
-(korma/defdb db (korma/postgres (:database app-config)))
+(defn initdb
+  [config]
 
   (korma/defdb db (korma/postgres config))
 
@@ -22,7 +23,7 @@
              (database db)
              (entity-fields :id :line_order :type :content :users_id :poems_id #_:lang)
 
-             (belongs-to users) ;; poems.users_ide = users.id
+             (belongs-to users) ;; poems.users_id = users.id
              (belongs-to poems) ;; poems.poems_id = poems.id
 
              )
@@ -37,6 +38,8 @@
              (belongs-to poems) ;; likers.poems_id = poems.id
 
              ))
+
+
 
 
 ;; (select poem) => SELECT * FROM POEM
