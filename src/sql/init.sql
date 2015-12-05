@@ -17,6 +17,7 @@ create table poems (
   type       varchar(100) not null,
   content    text not null,
   lang       text not null,
+  ts         TIMESTAMP not null DEFAULT CURRENT_TIMESTAMP,
   users_id   integer references users(id),
   poems_id   integer references poems(id)
 );
