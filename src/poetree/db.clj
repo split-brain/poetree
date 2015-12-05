@@ -67,7 +67,3 @@
 (defn get-poems-for-user [userid]
   (select poems
           (where {:users_id userid})))
-
-;; GET ALL LEAFS
-;; GET ALL FINISHED
-;; GET ALL UNFINISHED

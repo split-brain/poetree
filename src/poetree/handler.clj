@@ -22,8 +22,7 @@
 
             [oauth.client :as oauth-client]
             [poetree.oauth :as poetree-oauth]
-
-            [org.httpkit.server :as http-server]))
+            ))
 
 (def consumer (poetree-oauth/make-app-consumer))
 
@@ -81,9 +80,3 @@
       wrap-keyword-params
       wrap-params
       wrap-session))
-
-(defn start-server []
-  (let [port 8080]
-    (http-server/run-server app {:port port :join? true})
-    (println "Server listening on port" port)))
-
