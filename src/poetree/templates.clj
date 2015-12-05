@@ -43,6 +43,8 @@
          " "
          [:a {:href (:link author)} (:name author)]
          " "
+         [:a {:href (format "/feed/%s" (:id line))} "View"]
+         " "
          [:a {:href (format "/fork/%s" (:id line))} "Fork"]
          " "
          [:a {:href (format "/likers/%s" (:id line))} "Likes: " (count (:likers line))]
