@@ -1,4 +1,5 @@
 (ns poetree.db
+  (:refer-clojure :exclude [update])
   (:require [korma.db :as korma]
             [korma.core :refer :all]
             [poetree.config :refer [app-config]]))

@@ -1,4 +1,4 @@
-(defproject poetree "0.0.1"
+(defproject poetree "0.0.1-SNAPSHOT"
   :description "Colaborative Poems"
   :url "http://clojurecup.com/poetree"
   :min-lein-version "2.0.0"
@@ -36,10 +36,12 @@
                  ]
   :plugins [[lein-ring "0.9.7"]]
   :ring {:handler poetree.handler/app}
-  :main poetree.core
   :profiles
   {:dev {:dependencies [[javax.servlet/servlet-api "2.5"]
                         [ring/ring-mock "0.3.0"]]}
    
    :uberjar {:main poetree.core
-             :aot :all}})
+             :aot :all}}
+  
+  :main poetree.core
+  :aot [poetree.core])

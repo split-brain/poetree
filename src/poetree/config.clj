@@ -20,4 +20,5 @@
                    slurp
                    edn/read-string
                    (merge default-config))]
+    (println config)
     (defstate app-config :start config)))
