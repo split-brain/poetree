@@ -85,7 +85,7 @@
 (defn start-server [app]
   (let [port (get-in app-config [:server :port])]
     (http-server/run-server app {:port port :join? false})
-    (println "Server listening on port " port)))
+    (println "Server listening on port" port)))
 
 (defstate server
   :start (start-server app)
