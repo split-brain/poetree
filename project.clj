@@ -32,9 +32,12 @@
 
                  ;; misc
                  [org.clojure/core.match "0.3.0-alpha4"]
+                 [mount "0.1.5"]
                  ]
   :plugins [[lein-ring "0.9.7"]]
   :ring {:handler poetree.handler/app}
   :profiles
   {:dev {:dependencies [[javax.servlet/servlet-api "2.5"]
-                        [ring/ring-mock "0.3.0"]]}})
+                        [ring/ring-mock "0.3.0"]]}
+   :uberjar {:main poetree.core
+             :aot :all}})
