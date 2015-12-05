@@ -75,7 +75,7 @@
      (t/view-feed (service/feed))
      (get-in (friend/current-authentication request)
              [:identity :screen_name])))
-  (GET "/feed/:id" [id request]
+  (GET "/feed/:id" [id :as request]
     (t/page
      "Poems Feed"
      (t/view-feed (service/poem (Long/parseLong id)))
