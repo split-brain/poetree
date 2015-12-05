@@ -7,6 +7,10 @@
   (println m " " o)
   o)
 
+(defn users
+  []
+  (db/users))
+
 (defn feed []
   ;; TODO transform to some structure
   (let [poems (db/get-poems)

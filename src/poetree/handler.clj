@@ -1,7 +1,6 @@
 (ns poetree.handler
   (:require [poetree.service :as service]
             [poetree.templates :as t]
-            [poetree.config :refer [app-config]]
             [compojure.core :refer :all]
             [compojure.route :as route]
             [ring.middleware.defaults :refer [wrap-defaults site-defaults]]
@@ -11,7 +10,7 @@
             [ring.middleware.session :refer [wrap-session]]
             [ring.util.response :refer [redirect]]
 
-            [mount.core :refer [defstate]]
+            ;[mount.core :refer [defstate]]
 
             [hiccup.core :refer :all]
             [hiccup.form :refer :all]
@@ -63,6 +62,7 @@
                         (t/view-feed (service/feed))))
   (GET "/fork" [id] "Create New")
   (GET "/fork/:id" [id] (service/fork id))
+  (GET "/users" [] (service/users))
 
   (GET "/like/:id" [id] "NOT IMPLEMENTED")
   (GET "/likers/:id" [id] (service/likers id))
@@ -82,11 +82,8 @@
       wrap-params
       wrap-session))
 
-(defn start-server [app]
-  (let [port (get-in app-config [:server :port])]
-    (http-server/run-server app {:port port :join? false})
+(defn start-server []
+  (let [port 8080]
+    (http-server/run-server app {:port port :join? true})
     (println "Server listening on port" port)))
 
-(defstate server
-  :start (start-server app)
-  :stop (server))

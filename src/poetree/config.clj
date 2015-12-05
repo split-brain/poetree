@@ -1,7 +1,6 @@
 (ns poetree.config
   (:require [clojure.edn :as edn]
             [clojure.java.io :as io]
-            [mount.core :refer [defstate]]
             ))
 
 (defn load-resource
@@ -21,4 +20,5 @@
                    edn/read-string
                    (merge default-config))]
     (println config)
-    (defstate app-config :start config)))
+    ;(defstate app-config :start config)
+    config))

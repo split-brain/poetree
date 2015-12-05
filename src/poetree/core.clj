@@ -1,9 +1,11 @@
 (ns poetree.core
-  (:require [mount.core :as mount :refer [defstate]]
-            [poetree.config :refer [app-config load-config]]
-            [poetree.handler :refer [server]])
+  (:require [poetree.config :refer [load-config]]
+            [poetree.handler :as handler]
+            [poetree.db :as db])
   (:gen-class))
 
 (defn -main [path]
-  (load-config path)
-  (mount/start))
+  (let [config (load-config path)]
+    (db/initdb (:database config))
+    (handler/start-server)
+    (.join (Thread/currentThread))))
