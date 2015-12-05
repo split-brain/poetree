@@ -1,18 +1,21 @@
 (ns poetree.templates
   (:use [hiccup.page :only (html5 include-css include-js)]))
 
-(defn page [title & content]
-  (html5 
+(defn page [title authorized? & content]
+  (html5
    [:head
     [:title title]
     [:body
+     (if authorized?
+       [:a {:href "/logout"} "Logout"]
+       [:a {:href "/login"} "Login"])
      [:h1 title]
      [:div {:class "container"} content ]]]))
 
 (defn view-feed [feed]
   [:div
    [:a {:href "/fork"} "Create New"]
-   
+
    (for [f feed
          :let [lines (:lines f)]]
      ;;
@@ -29,7 +32,7 @@
          ]
         )
       ]
-     
-     
+
+
      )]
   )
