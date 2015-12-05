@@ -1,4 +1,5 @@
 (ns poetree.templates
+  (:require [ring.util.codec :as codec])
   (:use [hiccup.page :only (html5 include-css include-js)]))
 
 (defn page [title authorized? & content]
@@ -31,8 +32,15 @@
          [:a {:href (format "/likers/%s" (:id line))} "Likes: " (count (:likers line))]
          ]
         )
+      (tweet-button "http://todo-view-link.com" "Check out this poem at Poetree!")
       ]
 
 
      )]
   )
+
+(defn tweet-button [link text]
+  [:a
+   {:class "twitter-share-button"
+    :href (str "https://twitter.com/intent/tweet?text=" (codec/url-encode (str text " " link)))}
+   "Tweet"])
