@@ -1,10 +1,13 @@
 (ns poetree.db
   (:require [korma.db :as korma]
-            [korma.core :as sql]))
+            ;; TODO remove conflict with clojure.core/update
+            [korma.core :refer :all]))
 
+
+;; TODO replace it with prod configuration
 (def connection
   {
-   :db "mkoz"
+   :db "poetree"
    :user "mkoz"
    :password ""
    :host "localhost"
@@ -15,8 +18,37 @@
 
 (korma/defdb db (korma/postgres connection))
 
-(sql/defentity poem)
 
-;; Database Layer
+(declare users poems likers)
 
-;; (sql/select poem) => SELECT * FROM POEM
+(defentity users
+  (pk :id)
+  (table :users)
+  (database db)
+  (entity-fields :id :name :link)
+  )
+
+(defentity poems
+  (pk :id)
+  (table :poems)
+  (database db)
+  (entity-fields :id :line_order :type :content :users_id :poems_id)
+
+  (belongs-to users) ;; poems.users_id = users.id
+  (belongs-to poems) ;; poems.poems_id = poems.id
+
+  )
+
+(defentity likers
+  ;;  (pk :id)
+  (table :likers)
+  (database db)
+  (entity-fields :users_id :poems_id)
+
+  (belongs-to users) ;; likers.users_id = users.id
+  (belongs-to poems) ;; likers.poems_id = poems.id
+
+  )
+
+
+;; (select poem) => SELECT * FROM POEM
