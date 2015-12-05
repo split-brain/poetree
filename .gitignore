@@ -8,3 +8,9 @@ pom.xml.asc
 *.class
 /.lein-*
 /.nrepl-port
+
+config/prod.edn
+
+### Intellij ###
+*.iml
+.idea/

@@ -1,5 +1,7 @@
 (ns poetree.db
+  (:refer-clojure :exclude [update])
   (:require [korma.db :as korma]
+<<<<<<< HEAD
             ;; TODO remove conflict with clojure.core/update
             [korma.core :refer :all]))
 
@@ -17,6 +19,10 @@
    })
 
 (korma/defdb db (korma/postgres connection))
+=======
+            [korma.core :refer :all]
+            [poetree.config :refer [app-config]]))
+>>>>>>> 0534b107baf10e76a05682d2a4d2e2ac03c35ae7
 
 
 (declare users poems likers)
