@@ -12,11 +12,11 @@
      [:title title]
      (include-css "css/poetree.css")
      [:body
-      (when user-name
-        [:span (str "Hi, " user-name "!")])
-      " "
       (if user-name
-        [:a {:href "/logout"} "Logout"]
+        (seq
+         [[:span (str "Hi, " user-name "!")]
+          " "
+          [:a {:href "/logout"} "Logout"]])
         [:a {:href "/login"} "Login"])]
      [:h1 title]
      [:div {:class "container"} content ]])))
