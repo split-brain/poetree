@@ -3,38 +3,35 @@
             [clojure.data.json :as json]))
 
 ;; TODO move to utils
-(defn debug [m o]
-  (println m " " o)
-  o)
+(defn debug [m o] (println m " " o) o)
 
 (defn users
   []
   (db/users))
 
-(defn feed []
-  ;; TODO transform to some structure
-  (let [poems (db/get-poems)
-        ids (map :id poems)
+
+
+(defn collapse-poems [poems]
+  (let [ids (map :id poems)
         state (zipmap ids poems)
-        has-childs (into #{} (map :poems_id poems))
+        has-childs (into #{} (map :poems_id poems)) 
         poems-view
         (->> ids
-             (debug "IDS")
              (filter (complement has-childs))
-             (debug "FILTERED")
              (map (fn [id]
                     (loop [parent id acc []]
                       (cond
                         (nil? parent) {:lines (reverse acc)}
                         true (let [parent-content (get state parent)]
                                (recur (:poems_id parent-content) (conj acc parent-content))))))))]
-    (println ids)
-    (println has-childs)
-    (println poems-view)
-    poems-view))
+    poems-view
+    ))
 
-(defn poem [id])
+(defn feed []
+  (collapse-poems (db/get-poems)))
 
+(defn poem [id]
+  (collapse-poems (db/view-poem id)))
 
 (defn fork [id]
   (throw (IllegalArgumentException. "Not Implemented Yet")))

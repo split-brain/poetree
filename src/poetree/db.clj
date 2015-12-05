@@ -88,3 +88,16 @@
 ;; GET ALL LEAFS
 ;; GET ALL FINISHED
 ;; GET ALL UNFINISHED
+
+
+(defn view-poem [id]
+  (let [sql "with recursive poem_tree as (
+  select * from poems where id = ? 
+
+  union all
+
+  select p.* from poems p 
+         join poem_tree t on t.poems_id = p.id
+)
+select distinct * from poem_tree"]
+    (exec-raw db [sql [id]] :results)))
