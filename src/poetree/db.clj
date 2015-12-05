@@ -32,7 +32,7 @@
   (pk :id)
   (table :poems)
   (database db)
-  (entity-fields :id :line_order :type :content :users_id :poems_id :lang)
+  (entity-fields :id :line_order :type :content :users_id :poems_id #_:lang)
 
   (belongs-to users) ;; poems.users_id = users.id
   (belongs-to poems) ;; poems.poems_id = poems.id
@@ -76,3 +76,7 @@
 (defn get-poems-for-user [userid]
   (select poems
           (where {:users_id userid})))
+
+;; GET ALL LEAFS
+;; GET ALL FINISHED
+;; GET ALL UNFINISHED
