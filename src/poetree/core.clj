@@ -17,6 +17,6 @@
   (let [config (load-config path)]
     ;; configure database
     (init config)
-    
+
     ;; start server
     (run-jetty handler/app (:server config))))

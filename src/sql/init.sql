@@ -5,10 +5,11 @@ drop table if exists likers cascade;
 create table users (
   id        bigserial primary key,
   name      varchar(100) not null unique, -- twitter name
-  link      text not null -- twitter link
+  access_token text, -- should be not null, but leave as is for now
+  access_token_secret
 );
 
-insert into users (name, link) values ('poetree', 'http://clojurecup.com/poetree');
+insert into users (name) values ('poetree');
 
 
 create table poems (

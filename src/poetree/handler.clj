@@ -1,6 +1,9 @@
 (ns poetree.handler
   (:require [poetree.service :as service]
             [poetree.templates :as t]
+            [poetree.oauth :as poetree-oauth]
+            [poetree.db :as db]
+
             [compojure.core :refer :all]
             [compojure.route :as route]
             [ring.middleware.defaults :refer [wrap-defaults site-defaults]]
@@ -10,7 +13,7 @@
             [ring.middleware.session :refer [wrap-session]]
             [ring.util.response :refer [redirect]]
 
-            ;[mount.core :refer [defstate]]
+            ;;[mount.core :refer [defstate]]
 
             [hiccup.core :refer :all]
             [hiccup.form :refer :all]
@@ -21,7 +24,6 @@
             [cemerick.friend.workflows :as friend-workflows]
 
             [oauth.client :as oauth-client]
-            [poetree.oauth :as poetree-oauth]
             ))
 
 (def consumer (poetree-oauth/make-app-consumer))
@@ -37,17 +39,31 @@
                                    consumer
                                    request-token
                                    (get-in req [:params :oauth_verifier]))]
-            (friend-workflows/make-auth (credential-fn access-token))))))))
+            (if (db/get-user-by-name (:screen_name access-token))
+              (db/update-user (:screen_name access-token)
+                              (:oauth_token access-token)
+                              (:oauth_token_secret access-token))
+              (db/add-user (:screen_name access-token)
+                           (:oauth_token access-token)
+                           (:oauth_token_secret access-token)))
+            (friend/merge-authentication
+             (redirect (or
+                        (get-in req [:session :referer])
+                        "/"))
+             (friend-workflows/make-auth
+              (credential-fn access-token)))))))))
 
 (defroutes login-logout-routes
-  (GET "/login" []
+  (GET "/login" request
     (let [request-token (oauth-client/request-token
                          consumer
                          "http://localhost:8080/logged")
           approval-uri (oauth-client/user-approval-uri consumer (:oauth_token
                                                                  request-token))
           resp (redirect approval-uri)]
-      (update-in resp [:session] assoc :oauth-request-token request-token)))
+      (update-in resp [:session] assoc
+                 :oauth-request-token request-token
+                 :referer (get (:headers request) "referer"))))
   (friend/logout (ANY "/logout" []
                    (redirect "/"))))
 
