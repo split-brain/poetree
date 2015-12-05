@@ -33,6 +33,9 @@
     (println poems-view)
     poems-view))
 
+(defn poem [id])
+
+
 (defn fork [id]
   (throw (IllegalArgumentException. "Not Implemented Yet")))
 
