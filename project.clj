@@ -40,4 +40,6 @@
   {:dev {:dependencies [[javax.servlet/servlet-api "2.5"]
                         [ring/ring-mock "0.3.0"]]}
    :uberjar {:main poetree.core
-             :aot :all}})
+             :aot :all}}
+
+  :main poetree.core)

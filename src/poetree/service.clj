@@ -2,34 +2,32 @@
   (:require [poetree.db :as db]
             [clojure.data.json :as json]))
 
+;; TODO move to utils
+(defn debug [m o]
+  (println m " " o)
+  o)
+
 (defn feed []
   ;; TODO transform to some structure
-  #_(-> (db/get-poems)
-      ;;(json/write-str)
-        )
-  [{
-    :lines [{:id 1
-             :poems_id nil
-             :order_id 1
-             :type "POROX"
-             :content "спустись в каюту маяковский"
-             :author {:name "Dima" :link "http://twitter.com/dima"}
-             :likers [1 2 3]
-             }
-
-            {:id 2
-             :poems_id 1
-             :order_id 2
-             :type "POROX"
-             :content "кричат матросы скоро шторм"
-             :author {:name "Oleg" :link "http://twitter.com/oleg"}
-             :likers [1]
-             }
-            
-            ]
-    }]
-
-  )
+  (let [poems (db/get-poems)
+        ids (map :id poems)
+        state (zipmap ids poems)
+        has-childs (into #{} (map :poems_id poems))
+        poems-view
+        (->> ids
+             (debug "IDS")
+             (filter (complement has-childs))
+             (debug "FILTERED")
+             (map (fn [id]
+                    (loop [parent id acc []]
+                      (cond
+                        (nil? parent) {:lines (reverse acc)}
+                        true (let [parent-content (get state parent)]
+                               (recur (:poems_id parent-content) (conj acc parent-content))))))))]
+    (println ids)
+    (println has-childs)
+    (println poems-view)
+    poems-view))
 
 (defn fork [id]
   (throw (IllegalArgumentException. "Not Implemented Yet")))

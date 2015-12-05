@@ -1,10 +1,23 @@
 (ns poetree.db
   (:require [korma.db :as korma]
             ;; TODO remove conflict with clojure.core/update
-            [korma.core :refer :all]
-            [poetree.config :refer [app-config]]))
+            [korma.core :refer :all]))
 
-(korma/defdb db (korma/postgres (:database app-config)))
+
+;; TODO replace it with prod configuration
+(def connection
+  {
+   :db "poetree"
+   :user "mkoz"
+   :password ""
+   :host "localhost"
+   :port "5432"
+   :scheme "public"
+   
+   })
+
+(korma/defdb db (korma/postgres connection))
+
 
 (declare users poems likers)
 
@@ -66,4 +79,3 @@
 
 ;; GET ALL LEAFS
 ;; GET ALL FINISHED
-;; GET ALL UNFINISHED

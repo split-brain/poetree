@@ -13,8 +13,10 @@
   (GET "/fork" [id] "Create New")
   (GET "/fork/:id" [id] (service/fork id))
 
+  (GET "/like/:id" [id] "NOT IMPLEMENTED")
   (GET "/likers/:id" [id] (service/likers id))
-
+  
+  
   (route/resources "/")
   (route/not-found "TODO: ERROR PAGE"))
 
