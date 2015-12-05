@@ -6,10 +6,17 @@
             )
   (:gen-class))
 
+(defn init
+  ([]
+   (init
+    (load-config (str (System/getProperty "user.home") "/poetree.db"))))
+  ([config]
+   (db/initdb (:database config))))
+
 (defn -main [path]
   (let [config (load-config path)]
     ;; configure database
-    (db/initdb (:database config))
-
+    (init config)
+    
     ;; start server
     (run-jetty handler/app (:server config))))
