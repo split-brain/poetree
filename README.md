@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/split-brain/poetree.svg?branch=master)](https://travis-ci.org/split-brain/poetree)
+
 # poetree
 
 Colaborative Poems
@@ -8,5 +10,5 @@ Colaborative Poems
 To start a web server for the application, run:
 
 ```
-lein ring server
+lein run prod-config.end
 ```
