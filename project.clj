@@ -11,6 +11,8 @@
                  [ring/ring-defaults "0.1.5"]
                  [http-kit "2.1.18"]
                  [hiccup "1.0.5"]
+                 [org.clojure/data.json "0.2.6"]
+
 
                  ;; oauth stuff
                  [clj-oauth "1.5.2"]
