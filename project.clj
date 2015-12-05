@@ -36,8 +36,8 @@
                  ]
   :plugins [[lein-ring "0.9.7"]]
   :ring {:handler poetree.handler/app}
+  :main poetree.core
   :profiles
   {:dev {:dependencies [[javax.servlet/servlet-api "2.5"]
                         [ring/ring-mock "0.3.0"]]}
-   :uberjar {:main poetree.core
-             :aot :all}})
+   :uberjar {:aot :all}})
