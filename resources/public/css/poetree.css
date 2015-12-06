@@ -28,6 +28,11 @@
     font-weight: bold;
 }
 
+.header_button:hover {
+    background-color: #5ca026;
+}
+
+
 .line-edit {
     font-family: 'Alegreya', serif;
     font-size: 28px;
@@ -38,10 +43,6 @@
 
 .line_icons {
     float: right;
-}
-
-.header_button:hover {
-    background-color: #5ca026;
 }
 
 .poem {
@@ -121,4 +122,13 @@
 .landing-button:hover {
     background-color: yellow;
     color: black;
+}
+
+.submit-button {
+    margin-top: 25px;
+    font-family: 'Alegreya', serif;
+    font-size: 28px;
+    font-weight: bold;
+    color: white;
+    background-color: #5ca026;
 }

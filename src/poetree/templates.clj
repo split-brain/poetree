@@ -10,7 +10,7 @@
   (html5
    [:head
     [:title "Poetree"]
-    [:link {:rel "shortcut icon" :href "images/favicon.ico"}]
+    [:link {:rel "shortcut icon" :href "/images/favicon.ico"}]
     (include-css "/css/poetree.css")
     (include-css "https://fonts.googleapis.com/css?family=Alegreya")]
    [:body {:class "landing"}
@@ -75,7 +75,7 @@
    (html5
     [:head
      [:title title]
-     [:link {:rel "shortcut icon" :href "images/favicon.ico"}]
+     [:link {:rel "shortcut icon" :href "/images/favicon.ico"}]
      (include-css "/css/poetree.css")
      (include-css "https://fonts.googleapis.com/css?family=Alegreya")
      ]
@@ -177,6 +177,6 @@
                         :rows 1
                         :class "line-edit"}
                       (str "content" new-line-number))])
-    (if authentication
-      [:div (submit-button "Add poem")]
-      [:div (submit-button "Add poem anonymously")]))])
+    (let [add-label (if authentication "Add poem" "Add poem anonymously")]
+      [:div [:input {:class "submit-button" :type "submit" :value add-label}]])
+    )])
