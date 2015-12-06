@@ -76,7 +76,7 @@
      (friend/current-authentication request)))
   (GET "/feed/:id" [id :as request]
     (t/page
-     "Poems Feed"
+     "Poem Feed"
      (t/view-feed (service/poem (Long/parseLong id)))
      (friend/current-authentication request)))
   (POST "/post" [] "Post works")

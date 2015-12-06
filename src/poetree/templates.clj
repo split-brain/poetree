@@ -12,12 +12,13 @@
     (include-css "https://fonts.googleapis.com/css?family=Alegreya")]
    [:body {:class "landing"}
     [:div {:class "landing-content"}
-     [:div {:class "landing-title"} "Poetree"]
+     [:div {:class "landing-title"}
+      [:img {:src "images/logo.png"}]]
      [:div {:class "landing-desc"} "colaborative poems"]
      
      [:div {:class "landing-button"
             :onclick "location.href='/feed'"
-            :style "cursor:pointer;"} "Show me"]]
+            :style "cursor:pointer;"} "Show me!"]]
     
     ])
   
@@ -80,24 +81,24 @@
         [:div {:class "line"}
          (:content line)
          " "
-         [:a {:href (:link author)
-              :alt (:name author)}
+         [:a {:href (:link author)}
           [:img {:src "images/poetree_user.png"
+                 :alt (:name author)
                  :width "24" :height "24"}]]
          " "
-         [:a {:href (format "/feed/%s" (:id line))
-              :alt "View"}
+         [:a {:href (format "/feed/%s" (:id line))}
           [:img {:src "images/poetree_view.png"
-                 :width "24" :height "20"}]]
+                 :alt "View"
+                 :width "24" :height "18"}]]
          " "
-         [:a {:href (format "/fork/%s" (:id line))
-              :alt "Fork"}
+         [:a {:href (format "/fork/%s" (:id line))}
           [:img {:src "images/poetree_fork.png"
-                 :width "20" :height "24"}]]
+                 :alt "Fork"
+                 :width "18" :height "24"}]]
          " "
-         [:a {:href (format "/likers/%s" (:id line))
-              :alt "Like"}
+         [:a {:href (format "/likers/%s" (:id line))}
           [:img {:src "images/poetree_like.png"
+                 :alt "Like"
                  :width "24" :height "24"}]]
          ]
         )
