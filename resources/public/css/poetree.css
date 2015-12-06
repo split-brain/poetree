@@ -28,6 +28,11 @@
     font-weight: bold;
 }
 
+.header_button:hover {
+    background-color: #5ca026;
+}
+
+
 .line-edit {
     font-family: 'Alegreya', serif;
     font-size: 28px;
@@ -38,10 +43,6 @@
 
 .line_icons {
     float: right;
-}
-
-.header_button:hover {
-    background-color: #5ca026;
 }
 
 .poem {
@@ -71,7 +72,7 @@
 
 .mainbody {
     margin: 0px;
-    background-image: url("http://bgfons.com/upload/beton_texture974.jpg");
+    background-image: url("/images/beton.jpg");
     background-repeat: no-repeat;
     background-position: center;
     background-attachment: fixed;
@@ -81,7 +82,7 @@
 
 .landing {
     margin: 0px;
-    background-image: url("http://openwalls.com/image/11476/abstract_bonsai_tree_1920x1200.jpeg");
+    background-image: url("/images/bonsai.jpeg");
     background-repeat: no-repeat;
     background-position: center;
     background-attachment: fixed;
@@ -121,4 +122,13 @@
 .landing-button:hover {
     background-color: yellow;
     color: black;
+}
+
+.submit-button {
+    margin-top: 25px;
+    font-family: 'Alegreya', serif;
+    font-size: 28px;
+    font-weight: bold;
+    color: white;
+    background-color: #5ca026;
 }
