@@ -1,7 +1,6 @@
 (ns poetree.templates
   (:require [ring.util.codec :as codec]
-            [hiccup.form :refer :all]
-            [poetree.utils :as utils])
+            [hiccup.form :refer :all])
   (:use [hiccup.page :only (html5 include-css include-js)]
         [ring.util.anti-forgery :only [anti-forgery-field]]))
 
