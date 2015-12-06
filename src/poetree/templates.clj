@@ -95,30 +95,33 @@
          [:span {:class "line_content"} (:content line)]
          [:div {:class "line_icons"}
           " "
-         [:a {:href (format "https://twitter.com/%s" author)
-              :alt (:name author)}
-          [:img {:src (:profile_image_url line)
-                 :width "24" :height "24"}]]
-         " "
-         [:a {:href (format "/feed/%s" (:id line))}
-          [:img {:src "/images/poetree_view.png"
-                 :alt "View"
-                 :width "24" :height "18"}]]
-         " "
-         [:a {:href (format "/fork/%s" (:id line))}
-          [:img {:src "/images/poetree_fork.png"
-                 :alt "Fork"
-                 :width "18" :height "24"}]]
-         " "
-         [:a {:href (format "/likers/%s" (:id line))}
-          [:img {:src "/images/poetree_like.png"
-                 :alt "Like"
-                 :width "24" :height "24"}]]
+          [:a {:href (format "https://twitter.com/%s" author)
+               :alt (:name author)}
+           [:img {:src (:profile_image_url line)
+                  :width "24" :height "24"}]]
+          " "
+          [:a {:href (format "/feed/%s" (:id line))}
+           [:img {:src "/images/poetree_view.png"
+                  :alt "View"
+                  :width "24" :height "18"}]]
+          " "
+          [:a {:href (format "/fork/%s" (:id line))}
+           [:img {:src "/images/poetree_fork.png"
+                  :alt "Fork"
+                  :width "18" :height "24"}]]
+          " "
+          [:a {:href (format "/likers/%s" (:id line))}
+           [:img {:src "/images/poetree_like.png"
+                  :alt "Like"
+                  :width "24" :height "24"}]]
           ]
          
          ]
         )
-      (tweet-button "http://todo-view-link.com" "Check out this poem at Poetree!")
+      (when (= (count lines) 3)
+        (tweet-button
+         (str "http://localhost:8080/feed/" (:id (last lines)))
+         "Check out this poem at Poetree!"))
       ]
 
 
