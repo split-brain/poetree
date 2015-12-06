@@ -4,6 +4,7 @@
             [poetree.oauth :as poetree-oauth]
             [poetree.twitter :as tw]
             [poetree.db :as db]
+            [poetree.utils :refer [get-hostname]]
 
             [compojure.core :refer :all]
             [compojure.route :as route]
@@ -63,11 +64,18 @@
               ; FIXME: we shouldn't query db again to get user object
               (credential-fn (db/get-user-by-name (:screen_name access-token)))))))))))
 
+(defn callback-url
+  []
+  (let [host (get-hostname)
+        port 8080]
+    ;FIXME: DON'T HARDCODE THE PORT
+    (format "http://%s:%d/logged" host port)))
+
 (defroutes login-logout-routes
   (GET "/login" request
     (let [request-token (oauth-client/request-token
                          consumer
-                         "http://localhost:8080/logged")
+                         (callback-url))
           approval-uri (oauth-client/user-approval-uri consumer (:oauth_token
                                                                  request-token))
           resp (redirect approval-uri)]
