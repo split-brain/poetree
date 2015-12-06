@@ -68,7 +68,7 @@
                    (redirect "/"))))
 
 (defroutes app-routes
-  (GET "/" [] "Welcome to Poetree :: Login Page")
+  (GET "/" [] (t/landing))
   (GET "/feed" request
     (t/page
      "Poems Feed"

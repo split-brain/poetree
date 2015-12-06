@@ -57,11 +57,50 @@
 /*     background-color: #d9d9d9; */
 /* } */
 
-body {
+.mainbody {
     margin: 0px;
     background-image: url("http://bgfons.com/upload/beton_texture974.jpg");
     background-repeat: no-repeat;
     background-position: center;
     background-attachment: fixed;
     background-size: cover;
+}
+
+
+.landing {
+    margin: 0px;
+    background-image: url("http://openwalls.com/image/11476/abstract_bonsai_tree_1920x1200.jpeg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+.landing-content {
+    font-family: 'Alegreya', serif;
+    margin-left: 100px;
+    margin-top: 100px;
+}
+
+.landing-title {
+    font-size: 120px;
+}
+
+.landing-desc {
+    font-size: 48px;
+}
+
+.landing-button {
+    margin-top: 100px;
+    vertical-align: middle;
+    text-align: center;
+    background-color: white;
+    border-radius: 25px;
+    height: 100%;
+    width: 300px;
+    font-size: 48px;
+}
+
+.landing-button:hover {
+    background-color: green;
 }

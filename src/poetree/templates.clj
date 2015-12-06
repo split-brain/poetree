@@ -2,6 +2,25 @@
   (:require [ring.util.codec :as codec])
   (:use [hiccup.page :only (html5 include-css include-js)]))
 
+(defn landing []
+  (html5
+   [:head
+    [:title "Poetree"]
+    (include-css "css/poetree.css")
+    (include-css "https://fonts.googleapis.com/css?family=Alegreya")]
+   [:body {:class "landing"}
+    [:div {:class "landing-content"}
+     [:div {:class "landing-title"} "Poetree"]
+     [:div {:class "landing-desc"} "colaborative poems"]
+     
+     [:div {:class "landing-button"
+            :onclick "location.href='/feed'"
+            :style "cursor:pointer;"} "Show me"]]
+    
+    ])
+  
+  )
+
 (defn page
   ([title content]
    (page title content nil))
@@ -13,7 +32,7 @@
      (include-css "css/poetree.css")
      (include-css "https://fonts.googleapis.com/css?family=Alegreya")
      ]
-    [:body
+    [:body {:class "mainbody"}
      [:div {:class "header"}
 
        ;; User auth
