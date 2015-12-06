@@ -30,6 +30,10 @@
     border: 1px dotted;
 }
 
+.line_icons {
+    float: right;
+}
+
 .header_button:hover {
     background-color: green;
 }

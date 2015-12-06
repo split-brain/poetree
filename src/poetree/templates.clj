@@ -88,8 +88,9 @@
      [:div {:class "poem"}
       (for [line lines :let [author (:username line)]]
         [:div {:class "line"}
-         (:content line)
-         " "
+         [:span {:class "line_content"} (:content line)]
+         [:div {:class "line_icons"}
+          " "
          [:a {:href (format "https://twitter.com/%s" author)
               :alt (:name author)}
           [:img {:src (:profile_image_url line)
@@ -109,6 +110,8 @@
           [:img {:src "/images/poetree_like.png"
                  :alt "Like"
                  :width "24" :height "24"}]]
+          ]
+         
          ]
         )
       (tweet-button "http://todo-view-link.com" "Check out this poem at Poetree!")
