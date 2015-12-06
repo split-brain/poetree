@@ -4,7 +4,6 @@
             [poetree.oauth :as poetree-oauth]
             [poetree.twitter :as tw]
             [poetree.db :as db]
-            [poetree.utils :refer [get-hostname]]
 
             [compojure.core :refer :all]
             [compojure.route :as route]
@@ -65,11 +64,8 @@
               (credential-fn (db/get-user-by-name (:screen_name access-token)))))))))))
 
 (defn callback-url
-  []
-  (let [host (get-hostname)
-        port 8080]
-    ;FIXME: DON'T HARDCODE THE PORT
-    (format "http://%s:%d/logged" host port)))
+  [request]
+  (format "http://%s/logged" (get-in request [:headers "host"])))
 
 (defroutes login-logout-routes
   (GET "/login" request
@@ -77,7 +73,7 @@
     (println "[LOGIN] Request: " request)
     (let [request-token (oauth-client/request-token
                          consumer
-                         (callback-url))
+                         (callback-url request))
           _ (println "[LOGIN] Received request token: " request-token)
           approval-uri (oauth-client/user-approval-uri consumer (:oauth_token
                                                                  request-token))
@@ -118,7 +114,7 @@
   (GET "/feed" request
     (t/page
      "Poems Feed"
-     (t/view-feed (service/feed))
+     (t/view-feed (service/feed) request)
      (friend/current-authentication request)))
   (GET "/feed/:id" [id :as request]
     (t/page

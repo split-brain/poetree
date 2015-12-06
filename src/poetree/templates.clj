@@ -120,7 +120,7 @@
              :width "24" :height "24"}]]
      ]))
 
-(defn view-feed [feed]
+(defn view-feed [feed request]
   [:div
    (for [f feed
          :let [lines (:lines f)]]
@@ -135,7 +135,7 @@
         )
       (when (= (count lines) 3)
         (tweet-button
-         (format "http://%s:8080/feed/%d" (utils/get-hostname) (:id (last lines)))
+         (format "http://%s/feed/%d" (get-in request [:header "host"]) (:id (last lines)))
          "Check out this poem at Poetree!"))
       ]
 
