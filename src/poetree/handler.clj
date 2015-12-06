@@ -119,7 +119,7 @@
   (GET "/feed/:id" [id :as request]
     (t/page
      "Poem Feed"
-     (t/view-feed (service/poem (Long/parseLong id)))
+     (t/view-feed (service/poem (Long/parseLong id)) request)
      (friend/current-authentication request)))
   (POST "/post" [] "Post works")
   (GET "/fork" request (t/page
