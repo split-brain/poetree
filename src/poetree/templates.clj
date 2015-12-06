@@ -134,7 +134,7 @@
         )
       (when (= (count lines) 3)
         (tweet-button
-         (format "http://%s/feed/%d" (get-in request [:header "host"]) (:id (last lines)))
+         (format "http://%s/feed/%d" (get-in request [:headers "host"]) (:id (last lines)))
          "Check out this poem at Poetree!"))
       ]
 
