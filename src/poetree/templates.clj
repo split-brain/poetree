@@ -31,7 +31,7 @@
    (html5
     [:head
      [:title title]
-     (include-css "css/poetree.css")
+     (include-css "/css/poetree.css")
      (include-css "https://fonts.googleapis.com/css?family=Alegreya")
      ]
     [:body {:class "mainbody"}
@@ -87,17 +87,17 @@
                  :width "24" :height "24"}]]
          " "
          [:a {:href (format "/feed/%s" (:id line))}
-          [:img {:src "images/poetree_view.png"
+          [:img {:src "/images/poetree_view.png"
                  :alt "View"
                  :width "24" :height "18"}]]
          " "
          [:a {:href (format "/fork/%s" (:id line))}
-          [:img {:src "images/poetree_fork.png"
+          [:img {:src "/images/poetree_fork.png"
                  :alt "Fork"
                  :width "18" :height "24"}]]
          " "
          [:a {:href (format "/likers/%s" (:id line))}
-          [:img {:src "images/poetree_like.png"
+          [:img {:src "/images/poetree_like.png"
                  :alt "Like"
                  :width "24" :height "24"}]]
          ]
