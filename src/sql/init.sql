@@ -34,16 +34,16 @@ values (3, 'HAIKU', 'where are you missing?','EN', 1, 2);
 insert into poems (line_order, type, content, lang, users_id, poems_id)
 values (1, 'HAIKU', 'Start in the middle', 'EN', 1, null);
 insert into poems (line_order, type, content, lang, users_id, poems_id)
-values (2, 'HAIKU', 'Then go halfway up or down', 'EN', 1, 1);
+values (2, 'HAIKU', 'Then go halfway up or down', 'EN', 1, 4);
 insert into poems (line_order, type, content, lang, users_id, poems_id)
-values (3, 'HAIKU', 'Repeat until done','EN', 1, 2);
+values (3, 'HAIKU', 'Repeat until done','EN', 1, 5);
 
 insert into poems (line_order, type, content, lang, users_id, poems_id)
 values (1, 'HAIKU', 'World is vast and wide', 'EN', 1, null);
 insert into poems (line_order, type, content, lang, users_id, poems_id)
-values (2, 'HAIKU', 'So much out there to explore', 'EN', 1, 1);
+values (2, 'HAIKU', 'So much out there to explore', 'EN', 1, 6);
 insert into poems (line_order, type, content, lang, users_id, poems_id)
-values (3, 'HAIKU', 'Right now, let''s eat lunch','EN', 1, 2);
+values (3, 'HAIKU', 'Right now, let''s eat lunch','EN', 1, 7);
 
 create table likers (
   poems_id   integer references poems(id),
