@@ -11,14 +11,36 @@
     [:head
      [:title title]
      (include-css "css/poetree.css")
-     [:body
-      (if user-name
-        (seq
-         [[:span (str "Hi, " user-name "!")]
-          " "
-          [:a {:href "/logout"} "Logout"]])
-        [:a {:href "/login"} "Login"])]
-     [:h1 title]
+     (include-css "https://fonts.googleapis.com/css?family=Alegreya")
+     ]
+    [:body
+     [:div {:class "header"}
+
+       ;; User auth
+      [:div {:class "header_button"}
+         (if user-name
+           (seq
+            user-name
+            [:a {:href "/logout"} "Logout"] ;; shuld be icon
+            )
+           [:a {:href "/login"} "Login"])]
+      
+
+       ;; Create New
+      [:div {:class "header_button"
+             :onclick "location.href='/fork'"
+             :style "cursor:pointer;"} 
+       "+"
+       ]
+
+      [:div {:class "header_button"
+             :onclick "location.href='/random'"
+             :style "cursor:pointer;"} 
+       "Random"
+        ]
+      
+      ]
+
      [:div {:class "container"} content ]])))
 
 (defn tweet-button [link text]
@@ -32,8 +54,6 @@
 
 (defn view-feed [feed]
   [:div
-   [:a {:href "/fork"} "Create New"]
-
    (for [f feed
          :let [lines (:lines f)]]
      ;;
@@ -42,13 +62,13 @@
         [:div {:class "line"}
          (:content line)
          " "
-         [:a {:href (:link author)} (:name author)]
-         " "
-         [:a {:href (format "/feed/%s" (:id line))} "View"]
-         " "
-         [:a {:href (format "/fork/%s" (:id line))} "Fork"]
-         " "
-         [:a {:href (format "/likers/%s" (:id line))} "Likes: " (count (:likers line))]
+         #_[:a {:href (:link author)} (:name author)]
+         #_" "
+         #_[:a {:href (format "/feed/%s" (:id line))} "View"]
+         #_" "
+         #_[:a {:href (format "/fork/%s" (:id line))} "Fork"]
+         #_" "
+         #_[:a {:href (format "/likers/%s" (:id line))} "Likes: " (count (:likers line))]
          ]
         )
       (tweet-button "http://todo-view-link.com" "Check out this poem at Poetree!")

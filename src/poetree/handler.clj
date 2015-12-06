@@ -84,6 +84,9 @@
   (GET "/fork" [] (t/fork-view {}))
   (GET "/fork/:id" [id] (t/fork-view (service/poem id)))
   (GET "/users" [] (service/users))
+  (GET "/random" []
+       ;; rewrite link
+       "TODO: Implement")
 
   (GET "/like/:id" [id] "NOT IMPLEMENTED")
   (GET "/likers/:id" [id] (service/likers id))
