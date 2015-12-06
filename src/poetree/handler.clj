@@ -126,11 +126,11 @@
      (t/view-feed (service/poem (Long/parseLong id)))
      (friend/current-authentication request)))
   (POST "/post" [] "Post works")
-  (GET "/fork" [] (t/page
-                   "Create Poem"
-                   (t/fork-view
-                    {}
-                    (friend/current-authentication))))
+  (GET "/fork" request (t/page
+                        "Create Poem"
+                        (t/fork-view
+                         {}
+                         (friend/current-authentication request))))
   (GET "/fork/:id" [id :as request]
     (t/page
      "Edit Poem"
