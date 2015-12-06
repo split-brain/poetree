@@ -80,13 +80,25 @@
         [:div {:class "line"}
          (:content line)
          " "
-         #_[:a {:href (:link author)} (:name author)]
-         #_" "
-         #_[:a {:href (format "/feed/%s" (:id line))} "View"]
-         #_" "
-         #_[:a {:href (format "/fork/%s" (:id line))} "Fork"]
-         #_" "
-         #_[:a {:href (format "/likers/%s" (:id line))} "Likes: " (count (:likers line))]
+         [:a {:href (:link author)
+              :alt (:name author)}
+          [:img {:src "images/poetree_user.png"
+                 :width "24" :height "24"}]]
+         " "
+         [:a {:href (format "/feed/%s" (:id line))
+              :alt "View"}
+          [:img {:src "images/poetree_view.png"
+                 :width "24" :height "20"}]]
+         " "
+         [:a {:href (format "/fork/%s" (:id line))
+              :alt "Fork"}
+          [:img {:src "images/poetree_fork.png"
+                 :width "20" :height "24"}]]
+         " "
+         [:a {:href (format "/likers/%s" (:id line))
+              :alt "Like"}
+          [:img {:src "images/poetree_like.png"
+                 :width "24" :height "24"}]]
          ]
         )
       (tweet-button "http://todo-view-link.com" "Check out this poem at Poetree!")
