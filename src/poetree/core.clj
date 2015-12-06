@@ -2,8 +2,7 @@
   (:require [poetree.config :refer [load-config]]
             [poetree.handler :as handler]
             [poetree.db :as db]
-            [ring.adapter.jetty :refer :all]
-            )
+            [ring.adapter.jetty :refer :all])
   (:gen-class))
 
 (defn init

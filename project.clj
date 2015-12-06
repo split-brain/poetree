@@ -21,7 +21,7 @@
 
                  ;; logging
                  [com.taoensso/timbre "4.1.4"]
-
+                 [org.slf4j/slf4j-simple "1.7.13"]
 
                  ;; database
                  [org.clojure/java.jdbc "0.4.1"]
