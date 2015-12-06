@@ -28,6 +28,14 @@
     font-weight: bold;
 }
 
+.line-edit {
+    font-family: 'Alegreya', serif;
+    font-size: 28px;
+    line-height: 1;
+    background-color: #f2f2f2;
+    width: 80%;
+}
+
 .line_icons {
     float: right;
 }
