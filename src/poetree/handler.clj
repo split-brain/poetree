@@ -134,9 +134,11 @@
                        [content0 content1 content2])
                request))
   (GET "/users" [] (service/users))
-  (GET "/random" []
-    ;; rewrite link
-    "TODO: Implement")
+  (GET "/random" request
+    (t/page
+     "Poem Feed"
+     (t/view-feed (service/random-finished-poem))
+     (friend/current-authentication request)))
   (ANY "/error" []
     "Error happened")
 

@@ -36,6 +36,10 @@
 (defn add-poem [content owner-line-id user-id]
   (:id (first (db/add-poem content owner-line-id user-id))))
 
+(defn random-finished-poem []
+  (let [finished-poems (collapse-poems (db/view-finished-poems))]
+    (list (rand-nth finished-poems))))
+
 (defn add-poem-with-lines [lines owner-id user-id]
   (reduce
    (fn [new-id line]
