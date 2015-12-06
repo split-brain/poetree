@@ -178,6 +178,4 @@
                       (str "content" new-line-number))])
     (if authentication
       [:div (submit-button "Add poem")]
-      [:div (submit-button "Add poem anonymously")]))
-   (when-not authentication
-     [:div (form-to [:get "/login"] (submit-button "Add with twitter"))])])
+      [:div (submit-button "Add poem anonymously")]))])

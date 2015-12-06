@@ -1,6 +1,5 @@
 (ns poetree.oauth
-  (:require [oauth.client :as oauth-client]
-            [twitter.oauth :as twitter-oauth]))
+  (:require [oauth.client :as oauth-client]))
 
 (def app-key "QwUxdswMIqCpUvUJzjPreOU8p")
 (def app-key-secret "LLgt1CbpPyleBlOF1WlNrS8b6A5AqNNTRCciiZBUTXiVnfB2zS")
