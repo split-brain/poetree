@@ -40,8 +40,8 @@
       [:div {:class "header_button"}
        (if authentication
          (seq
-          [(get-in [:identity :screen_name] authentication)
-           [:a {:href "/logout"} "Logout"]] ;; shuld be icon)
+          [(get-in authentication [:identity :screen_name])
+           [:a {:href "/logout"} "Logout"]]) ;; shuld be icon)
          [:a {:href "/login"} "Login"])]
 
       ;; Create New

@@ -31,7 +31,7 @@
   (collapse-poems (db/get-poems)))
 
 (defn poem [id]
-  (first (collapse-poems (db/view-poem id))))
+  (collapse-poems (db/view-poem id)))
 
 (defn add-poem [content owner-line-id user-id]
   (:id (first (db/add-poem content owner-line-id user-id))))

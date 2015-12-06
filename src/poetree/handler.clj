@@ -85,7 +85,7 @@
     (t/page
      "Edit Poem"
      (t/fork-view
-      (service/poem (Long/parseLong id))
+      (first (service/poem (Long/parseLong id)))
       (friend/current-authentication request))
      (friend/current-authentication request)))
   (POST "/fork/:id" [id content :as request]
@@ -93,14 +93,15 @@
                        content
                        (Long/parseLong id)
                        (service/user-id-by-name
-                        (get-in [:identity :screen_name]
-                                (friend/current-authentication
-                                 request))))]
+                        (get-in
+                         (friend/current-authentication
+                          request)
+                         [:identity :screen_name])))]
       (redirect (str "/feed/" new-line-id))))
   (GET "/users" [] (service/users))
   (GET "/random" []
-       ;; rewrite link
-       "TODO: Implement")
+    ;; rewrite link
+    "TODO: Implement")
 
   (GET "/like/:id" [id] "NOT IMPLEMENTED")
   (GET "/likers/:id" [id] (service/likers id))
