@@ -3,4 +3,4 @@
 
 (defn get-hostname
   []
-  (.getHostName (InetAddress/getLocalHost)))
+  (.getCanonicalHostName (InetAddress/getLocalHost)))
