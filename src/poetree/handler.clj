@@ -73,16 +73,29 @@
     (t/page
      "Poems Feed"
      (t/view-feed (service/feed))
-     (get-in (friend/current-authentication request)
-             [:identity :screen_name])))
+     (friend/current-authentication request)))
   (GET "/feed/:id" [id :as request]
     (t/page
      "Poems Feed"
      (t/view-feed (service/poem (Long/parseLong id)))
-     (get-in (friend/current-authentication request)
-             [:identity :screen_name])))
+     (friend/current-authentication request)))
   (GET "/fork" [] (t/fork-view {}))
-  (GET "/fork/:id" [id] (t/fork-view (service/poem id)))
+  (GET "/fork/:id" [id :as request]
+    (t/page
+     "Edit Poem"
+     (t/fork-view
+      (service/poem (Long/parseLong id))
+      (friend/current-authentication request))
+     (friend/current-authentication request)))
+  (POST "/fork/:id" [id content :as request]
+    (let [new-line-id (service/add-poem
+                       content
+                       (Long/parseLong id)
+                       (service/user-id-by-name
+                        (get-in [:identity :screen_name]
+                                (friend/current-authentication
+                                 request))))]
+      (redirect (str "/feed/" new-line-id))))
   (GET "/users" [] (service/users))
 
   (GET "/like/:id" [id] "NOT IMPLEMENTED")

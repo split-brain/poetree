@@ -1,20 +1,23 @@
 (ns poetree.templates
-  (:require [ring.util.codec :as codec])
-  (:use [hiccup.page :only (html5 include-css include-js)]))
+  (:require [ring.util.codec :as codec]
+            [hiccup.form :refer :all])
+  (:use [hiccup.page :only (html5 include-css include-js)]
+        [ring.util.anti-forgery :only [anti-forgery-field]]))
 
 (defn page
   ([title content]
    (page title content nil))
-  ([title content user-name]
-   (println "user name: " user-name)
+  ([title content authentication]
    (html5
     [:head
      [:title title]
      (include-css "css/poetree.css")
      [:body
-      (if user-name
+      (if authentication
         (seq
-         [[:span (str "Hi, " user-name "!")]
+         [[:span (str "Hi, " (get-in authentication
+                                     [:identity :screen_name])
+                      "!")]
           " "
           [:a {:href "/logout"} "Logout"]])
         [:a {:href "/login"} "Login"])]
@@ -61,7 +64,22 @@
 (defn view-poem [poem]
   "TODO")
 
-(defn fork-view [poem]
-  "TODO"
-  
-  )
+(defn fork-view [poem authentication]
+  [:div
+   (for [line (:lines poem)]
+     [:div
+      (text-field
+       {:readonly true
+        :size 50}
+       "line"
+       (:content line))])
+   (form-to
+    [:post (str "/fork/" (:id (last (:lines poem))))]
+    (anti-forgery-field)
+    [:div
+     (text-field {:size 50} "content")]
+    (if authentication
+      [:div (submit-button "Add poem")]
+      [:div (submit-button "Add poem anonymously")]))
+   (when-not authentication
+     [:div (form-to [:get "/login"] (submit-button "Add with twitter"))])])

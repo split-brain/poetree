@@ -31,7 +31,14 @@
   (collapse-poems (db/get-poems)))
 
 (defn poem [id]
-  (collapse-poems (db/view-poem id)))
+  (first (collapse-poems (db/view-poem id))))
+
+(defn add-poem [content owner-line-id user-id]
+  (:id (first (db/add-poem content owner-line-id user-id))))
+
+(defn user-id-by-name [name]
+  (when name
+    (:id (db/get-user-by-name name))))
 
 (defn fork [id]
   (throw (IllegalArgumentException. "Not Implemented Yet")))

@@ -2,11 +2,11 @@ drop table if exists users cascade;
 drop table if exists poems cascade;
 drop table if exists likers cascade;
 
-create table users (
+     create table users (
   id        bigserial primary key,
   name      varchar(100) not null unique, -- twitter name
   access_token text, -- should be not null, but leave as is for now
-  access_token_secret
+  access_token_secret text
 );
 
 insert into users (name) values ('poetree');

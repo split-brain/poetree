@@ -101,3 +101,11 @@
 )
 select distinct * from poem_tree"]
     (exec-raw db [sql [id]] :results)))
+
+(defn add-poem [content owner-id user-id]
+  (let [sql "insert into poems (line_order, type, content, lang, users_id, poems_id)
+             select (poems.line_order + 1), poems.type, ?, poems.lang, ?, ?
+             from poems
+             where poems.id = ?
+             RETURNING id"]
+    (exec-raw db [sql [content user-id owner-id owner-id]] :results)))
