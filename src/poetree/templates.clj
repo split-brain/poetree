@@ -92,6 +92,33 @@
     "Tweet"]])
 
 
+
+
+(defn line-icons [line]
+  (let [author (:username line)]
+    [:div {:class "line_icons"}
+     " "
+     [:a {:href (format "https://twitter.com/%s" author)
+          :alt author}
+      [:img {:src (:profile_image_url line)
+             :width "24" :height "24"}]]
+     " "
+     [:a {:href (format "/feed/%s" (:id line))}
+      [:img {:src "/images/poetree_view.png"
+             :alt "View"
+             :width "24" :height "18"}]]
+     " "
+     [:a {:href (format "/fork/%s" (:id line))}
+      [:img {:src "/images/poetree_fork.png"
+             :alt "Fork"
+             :width "18" :height "24"}]]
+     " "
+     [:a {:href (format "/likers/%s" (:id line))}
+      [:img {:src "/images/poetree_like.png"
+             :alt "Like"
+             :width "24" :height "24"}]]
+     ]))
+
 (defn view-feed [feed]
   [:div
    (for [f feed
@@ -101,28 +128,7 @@
       (for [line lines :let [author (:username line)]]
         [:div {:class "line"}
          [:span {:class "line_content"} (:content line)]
-         [:div {:class "line_icons"}
-          " "
-          [:a {:href (format "https://twitter.com/%s" author)
-               :alt (:name author)}
-           [:img {:src (:profile_image_url line)
-                  :width "24" :height "24"}]]
-          " "
-          [:a {:href (format "/feed/%s" (:id line))}
-           [:img {:src "/images/poetree_view.png"
-                  :alt "View"
-                  :width "24" :height "18"}]]
-          " "
-          [:a {:href (format "/fork/%s" (:id line))}
-           [:img {:src "/images/poetree_fork.png"
-                  :alt "Fork"
-                  :width "18" :height "24"}]]
-          " "
-          [:a {:href (format "/likers/%s" (:id line))}
-           [:img {:src "/images/poetree_like.png"
-                  :alt "Like"
-                  :width "24" :height "24"}]]
-          ]
+         (line-icons line)
          
          ]
         )
@@ -152,14 +158,12 @@
     (max-lines-number-by-type (:type line))))
 
 (defn fork-view [poem authentication]
-  [:div
+  [:div {:class "poem"}
    (for [line (:lines poem)]
-     [:div
-      (text-area
-       {:readonly true
-        :size 50}
-       "line"
-       (:content line))])
+     [:div {:class "line"}
+      [:span {:class "line_content"} (:content line)]
+      (line-icons line)
+      ])
    (form-to
     [:post (str "/fork" (if-let [id (:id (last (:lines poem)))]
                           (str "/" id) ""))]
@@ -168,8 +172,10 @@
                                      poem)
                                     (let [lines (:lines poem)]
                                       (if lines (count lines) 0))))]
-      [:div
-       (text-area {:size 50} (str "content" new-line-number))])
+      [:div (text-area {:size 100
+                        :rows 1
+                        :class "line-edit"}
+                      (str "content" new-line-number))])
     (if authentication
       [:div (submit-button "Add poem")]
       [:div (submit-button "Add poem anonymously")]))

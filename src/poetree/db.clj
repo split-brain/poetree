@@ -70,7 +70,7 @@
   ; TODO(dima) - remove isers_id2 from results
   (exec-raw db
             ["select * from poems p
-              inner join (select id as users_id, name as username, profile_image_url from users) u
+              left outer join (select id as users_id, name as username, profile_image_url from users) u
               on p.users_id = u.users_id"] :results))
 
 (defn get-poems-for-user [userid]
