@@ -60,7 +60,8 @@
                         (get-in req [:session :referer])
                         "/"))
              (friend-workflows/make-auth
-              (credential-fn access-token)))))))))
+              ; FIXME: we shouldn't query db again to get user object
+              (credential-fn (db/get-user-by-name (:screen_name access-token)))))))))))
 
 (defroutes login-logout-routes
   (GET "/login" request
@@ -93,7 +94,7 @@
                         (get-in
                          (friend/current-authentication
                           request)
-                         [:identity :screen_name])))]
+                         [:identity :name])))]
       (redirect (str "/feed/" new-line-id)))
     (redirect "/error")))
 

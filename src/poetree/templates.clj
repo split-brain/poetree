@@ -39,9 +39,17 @@
    ;; User auth
    [:div {:class "header_button"}
     (if auth
-      (seq
-       [(get-in auth [:identity :screen_name])
-        [:a {:href "/logout"} "Logout"]]) ;; shuld be icon)
+      (let [user (get-in auth [:identity])]
+        (seq
+          [[:img {:src    (:profile_image_url user)
+                  :height "30"}]
+           " "
+           (:name user)
+           " "
+           [:a {:href "/logout"}
+            [:span {:style "padding-left:5px"}
+             [:img {:src    "/images/poetree_logout.png"
+                    :height "20"}]]]]))
       [:a {:href "/login"} "Sign In"])]
    
    ;; Create New
