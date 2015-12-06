@@ -39,8 +39,8 @@
       [:div {:class "header_button"}
          (if user-name
            (seq
-            user-name
-            [:a {:href "/logout"} "Logout"] ;; shuld be icon
+            [user-name
+             [:a {:href "/logout"} "Logout"]] ;; shuld be icon
             )
            [:a {:href "/login"} "Login"])]
       

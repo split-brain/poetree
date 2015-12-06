@@ -81,6 +81,7 @@
      (t/view-feed (service/poem (Long/parseLong id)))
      (get-in (friend/current-authentication request)
              [:identity :screen_name])))
+  (POST "/post" [] "Post works")
   (GET "/fork" [] (t/fork-view {}))
   (GET "/fork/:id" [id] (t/fork-view (service/poem id)))
   (GET "/users" [] (service/users))
