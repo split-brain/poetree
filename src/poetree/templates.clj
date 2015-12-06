@@ -33,7 +33,7 @@
           :onclick "location.href='/feed'"
           :style "cursor:pointer;"}
     [:img {:src "/images/poetree_logo_small.png"
-           :height "30"}]
+           :height "38"}]
     ]
    
    ;; User auth
