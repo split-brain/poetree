@@ -1,6 +1,7 @@
 (ns poetree.templates
   (:require [ring.util.codec :as codec]
-            [hiccup.form :refer :all])
+            [hiccup.form :refer :all]
+            [poetree.utils :as utils])
   (:use [hiccup.page :only (html5 include-css include-js)]
         [ring.util.anti-forgery :only [anti-forgery-field]]))
 
@@ -128,7 +129,7 @@
         )
       (when (= (count lines) 3)
         (tweet-button
-         (str "http://localhost:8080/feed/" (:id (last lines)))
+         (format "http://%s:8080/feed/" (utils/get-hostname) (:id (last lines)))
          "Check out this poem at Poetree!"))
       ]
 
