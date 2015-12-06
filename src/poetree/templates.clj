@@ -24,6 +24,38 @@
   
   )
 
+(defn header [auth]
+  [:div {:class "header"}
+   [:div {:class "header_button"
+          :onclick "location.href='/feed'"
+          :style "cursor:pointer;"}
+    [:img {:src "/images/poetree_logo_small.png"
+           :height "30"}]
+    ]
+   
+   ;; User auth
+   [:div {:class "header_button"}
+    (if auth
+      (seq
+       [(get-in auth [:identity :screen_name])
+        [:a {:href "/logout"} "Logout"]]) ;; shuld be icon)
+      [:a {:href "/login"} "Sign In"])]
+   
+   ;; Create New
+   [:div {:class "header_button"
+          :onclick "location.href='/fork'"
+          :style "cursor:pointer;"} 
+    [:span "New Poem"]
+    ]
+
+   [:div {:class "header_button"
+          :onclick "location.href='/random'"
+          :style "cursor:pointer;"} 
+    "Random"
+    ]
+
+   ])
+
 (defn page
   ([title content]
    (page title content nil))
@@ -35,30 +67,7 @@
      (include-css "https://fonts.googleapis.com/css?family=Alegreya")
      ]
     [:body {:class "mainbody"}
-     [:div {:class "header"}
-
-      ;; User auth
-      [:div {:class "header_button"}
-       (if authentication
-         (seq
-          [(get-in authentication [:identity :screen_name])
-           [:a {:href "/logout"} "Logout"]]) ;; shuld be icon)
-         [:a {:href "/login"} "Login"])]
-
-      ;; Create New
-      [:div {:class "header_button"
-             :onclick "location.href='/fork'"
-             :style "cursor:pointer;"} 
-       "+"
-       ]
-
-      [:div {:class "header_button"
-             :onclick "location.href='/random'"
-             :style "cursor:pointer;"} 
-       "Random"
-       ]
-
-      ]
+     (header authentication)
 
      [:div {:class "container"} content ]])))
 
