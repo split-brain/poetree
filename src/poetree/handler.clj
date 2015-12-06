@@ -95,6 +95,7 @@
          [:empty]                          false
          [:empty      _]                   false
          [:not-empty :empty :not-empty]    false
+         [:empty     :empty :not-empty]    false
          [:not-empty :empty :empty]        true
          :else                             true))
 
