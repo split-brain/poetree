@@ -80,7 +80,11 @@
      (t/view-feed (service/poem (Long/parseLong id)))
      (friend/current-authentication request)))
   (POST "/post" [] "Post works")
-  (GET "/fork" [] (t/fork-view {}))
+  (GET "/fork" [] (t/page
+                   "Create Poem"
+                   (t/fork-view
+                    {}
+                    (friend/current-authentication))))
   (GET "/fork/:id" [id :as request]
     (t/page
      "Edit Poem"
@@ -88,15 +92,25 @@
       (first (service/poem (Long/parseLong id)))
       (friend/current-authentication request))
      (friend/current-authentication request)))
-  (POST "/fork/:id" [id content :as request]
-    (let [new-line-id (service/add-poem
-                       content
-                       (Long/parseLong id)
-                       (service/user-id-by-name
-                        (get-in
-                         (friend/current-authentication
-                          request)
-                         [:identity :screen_name])))]
+  (POST "/fork" [content0 content1 content2 :as request]
+    (let [lines (filter identity [content0 content1 content2])
+          new-line-id (service/add-poem-with-lines lines
+                                                   nil
+                                                   (service/user-id-by-name
+                                                    (get-in
+                                                     (friend/current-authentication
+                                                      request)
+                                                     [:identity :screen_name])))]
+      (redirect (str "/feed/" new-line-id))))
+  (POST "/fork/:id" [id content0 content1 content2 :as request]
+    (let [lines (filter identity [content0 content1 content2])
+          new-line-id (service/add-poem-with-lines lines
+                                                   (Long/parseLong id)
+                                                   (service/user-id-by-name
+                                                    (get-in
+                                                     (friend/current-authentication
+                                                      request)
+                                                     [:identity :screen_name])))]
       (redirect (str "/feed/" new-line-id))))
   (GET "/users" [] (service/users))
   (GET "/random" []

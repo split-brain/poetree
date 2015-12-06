@@ -36,6 +36,16 @@
 (defn add-poem [content owner-line-id user-id]
   (:id (first (db/add-poem content owner-line-id user-id))))
 
+(defn add-poem-with-lines [lines owner-id user-id]
+  (reduce
+   (fn [new-id line]
+     (add-poem
+      line
+      new-id
+      user-id))
+   owner-id
+   lines))
+
 (defn user-id-by-name [name]
   (when name
     (:id (db/get-user-by-name name))))
