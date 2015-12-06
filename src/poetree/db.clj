@@ -107,7 +107,7 @@
          join poem_tree t on t.poems_id = p.id
 )
 select distinct * from poem_tree p
-inner join (select id as users_id, name as username, profile_image_url from users) u
+left outer join (select id as users_id, name as username, profile_image_url from users) u
 on p.users_id = u.users_id"]
     (exec-raw db [sql [id]] :results)))
 

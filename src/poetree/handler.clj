@@ -40,9 +40,9 @@
         (= "/logged" (:uri req))
         (when-let [request-token (get-in req [:session :oauth-request-token])]
           (when-let [access-token (oauth-client/access-token
-                                    consumer
-                                    request-token
-                                    (get-in req [:params :oauth_verifier]))]
+                                   consumer
+                                   request-token
+                                   (get-in req [:params :oauth_verifier]))]
 
             (if (db/get-user-by-name (:screen_name access-token))
               (db/update-user (:screen_name access-token)
@@ -56,11 +56,11 @@
                              (:oauth_token access-token)
                              (:oauth_token_secret access-token))))
             (friend/merge-authentication
-              (redirect (or
-                          (get-in req [:session :referer])
-                          "/"))
-              (friend-workflows/make-auth
-                (credential-fn access-token)))))))))
+             (redirect (or
+                        (get-in req [:session :referer])
+                        "/"))
+             (friend-workflows/make-auth
+              (credential-fn access-token)))))))))
 
 (defroutes login-logout-routes
   (GET "/login" request
