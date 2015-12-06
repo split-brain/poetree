@@ -13,8 +13,3 @@
                               "https://api.twitter.com/oauth/authenticate"
                               :hmac-sha1))
 
-(defn make-oauth-creds [consumer user-access-token]
-  (twitter-oauth/->OauthCredentials
-   consumer
-   (:oauth_token user-access-token)
-   (:oauth_token_secret user-access-token)))

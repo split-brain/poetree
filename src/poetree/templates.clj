@@ -76,13 +76,13 @@
          :let [lines (:lines f)]]
      ;;
      [:div {:class "poem"}
-      (for [line lines :let [author (:author line)]]
+      (for [line lines :let [author (:username line)]]
         [:div {:class "line"}
          (:content line)
          " "
-         [:a {:href (:link author)
+         [:a {:href (format "https://twitter.com/%s" author)
               :alt (:name author)}
-          [:img {:src "images/poetree_user.png"
+          [:img {:src (:profile_image_url line)
                  :width "24" :height "24"}]]
          " "
          [:a {:href (format "/feed/%s" (:id line))
