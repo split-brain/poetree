@@ -68,7 +68,7 @@
                    (redirect "/"))))
 
 (defroutes app-routes
-  (GET "/" [] "Welcome to Poetree :: Login Page")
+  (GET "/" [] (t/landing))
   (GET "/feed" request
     (t/page
      "Poems Feed"
@@ -79,6 +79,7 @@
      "Poems Feed"
      (t/view-feed (service/poem (Long/parseLong id)))
      (friend/current-authentication request)))
+  (POST "/post" [] "Post works")
   (GET "/fork" [] (t/fork-view {}))
   (GET "/fork/:id" [id :as request]
     (t/page
@@ -97,6 +98,9 @@
                                  request))))]
       (redirect (str "/feed/" new-line-id))))
   (GET "/users" [] (service/users))
+  (GET "/random" []
+       ;; rewrite link
+       "TODO: Implement")
 
   (GET "/like/:id" [id] "NOT IMPLEMENTED")
   (GET "/likers/:id" [id] (service/likers id))

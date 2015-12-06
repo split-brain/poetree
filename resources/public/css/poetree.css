@@ -1,5 +1,106 @@
+.header {
+    height: 30px;
+    background: grey;
+    width: 100%;
+    margin: 0px auto;
+    -webkit-box-shadow: 0px 3px 5px rgba(100, 100, 100, 0.49);
+    -moz-box-shadow:    0px 3px 5px rgba(100, 100, 100, 0.49);
+    box-shadow:         0px 3px 5px rgba(100, 100, 100, 0.49);
+
+    background-image: url('http://www.photoshopnerds.com/images/bio_chem_01.jpg');
+    background-repeat: no-repeat;
+    background-position: center center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+.header_button {
+    float: left;
+    height: 100%;
+    width: 100px;
+    background-color: white;
+    text-align: center;
+    vertical-align: middle;
+    margin-left: 10px;
+    margin-right: 10px;
+    horizontal-align: middle;
+}
+
+.header_button:hover {
+    background-color: green;
+}
+
 .poem {
     border: 1px solid;
-    padding: 15px;
-    margin: 5px;
+    border-color: #d9d9d9;
+    padding: 20px;
+    margin: 20px;
+    border-radius: 20px;
+    background: #ffffff;
+    font-family: 'Alegreya', serif;
+    font-size: 28px;
+
+    /* Center the div */
+    width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+    
+}
+
+.line {
+    
+}
+
+/* body { */
+/*     background-color: #d9d9d9; */
+/* } */
+
+.mainbody {
+    margin: 0px;
+    background-image: url("http://bgfons.com/upload/beton_texture974.jpg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+
+.landing {
+    margin: 0px;
+    background-image: url("http://openwalls.com/image/11476/abstract_bonsai_tree_1920x1200.jpeg");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
+.landing-content {
+    font-family: 'Alegreya', serif;
+    margin-left: 100px;
+    margin-top: 100px;
+}
+
+.landing-title {
+    font-size: 120px;
+}
+
+.landing-desc {
+    font-size: 48px;
+}
+
+.landing-button {
+    margin-top: 100px;
+    vertical-align: middle;
+    text-align: center;
+    background-color: white;
+    border-radius: 25px;
+    height: 100%;
+    width: 300px;
+    font-size: 48px;
+}
+
+.landing-button:hover {
+    background-color: green;
 }
