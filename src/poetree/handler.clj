@@ -147,15 +147,17 @@
      "Poem Feed"
      (t/view-feed (service/random-finished-poem))
      (friend/current-authentication request)))
-  (ANY "/error" []
-    "Error happened")
 
   (GET "/like/:id" [id] "NOT IMPLEMENTED")
   (GET "/likers/:id" [id] (service/likers id))
+
+  (ANY "/error" [request]
+       (t/page "Error" (t/error-page) (friend/current-authentication request)))
+  
   login-logout-routes
 
   (route/resources "/")
-  (route/not-found "TODO: ERROR PAGE"))
+  (route/not-found (redirect "/error")))
 
 (def app
   (-> app-routes

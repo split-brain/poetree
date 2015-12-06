@@ -180,3 +180,18 @@
     (let [add-label (if authentication "Add poem" "Add poem anonymously")]
       [:div [:input {:class "submit-button" :type "submit" :value add-label}]])
     )])
+
+
+(defn error-page []
+  [:div {:class "poem"}
+   [:div {:class "line"}
+    [:span {:class "line_content"}
+     "Unfortunately something goes bad"]
+    ]
+   [:div {:class "line"}
+    [:span {:class "line_content"}
+     "All that we can say:"]
+    ]
+   [:div {:class "line"}
+    [:span [:a {:href "/"} "Keep calm and start from the beginning"]]
+    ]])
