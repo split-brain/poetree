@@ -2,6 +2,7 @@
   (:require [poetree.service :as service]
             [poetree.templates :as t]
             [poetree.oauth :as poetree-oauth]
+            [poetree.twitter :as tw]
             [poetree.db :as db]
 
             [compojure.core :refer :all]
@@ -39,22 +40,27 @@
         (= "/logged" (:uri req))
         (when-let [request-token (get-in req [:session :oauth-request-token])]
           (when-let [access-token (oauth-client/access-token
-                                   consumer
-                                   request-token
-                                   (get-in req [:params :oauth_verifier]))]
+                                    consumer
+                                    request-token
+                                    (get-in req [:params :oauth_verifier]))]
+
             (if (db/get-user-by-name (:screen_name access-token))
               (db/update-user (:screen_name access-token)
                               (:oauth_token access-token)
                               (:oauth_token_secret access-token))
-              (db/add-user (:screen_name access-token)
-                           (:oauth_token access-token)
-                           (:oauth_token_secret access-token)))
+
+              (let [oauth-creds (tw/make-oauth-creds consumer access-token)
+                    profile-img-url (tw/get-user-image oauth-creds (:screen_name access-token))]
+                (db/add-user (:screen_name access-token)
+                             profile-img-url
+                             (:oauth_token access-token)
+                             (:oauth_token_secret access-token))))
             (friend/merge-authentication
-             (redirect (or
-                        (get-in req [:session :referer])
-                        "/"))
-             (friend-workflows/make-auth
-              (credential-fn access-token)))))))))
+              (redirect (or
+                          (get-in req [:session :referer])
+                          "/"))
+              (friend-workflows/make-auth
+                (credential-fn access-token)))))))))
 
 (defroutes login-logout-routes
   (GET "/login" request
@@ -100,7 +106,7 @@
      (friend/current-authentication request)))
   (GET "/feed/:id" [id :as request]
     (t/page
-     "Poems Feed"
+     "Poem Feed"
      (t/view-feed (service/poem (Long/parseLong id)))
      (friend/current-authentication request)))
   (POST "/post" [] "Post works")

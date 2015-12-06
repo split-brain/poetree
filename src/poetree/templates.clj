@@ -12,16 +12,49 @@
     (include-css "https://fonts.googleapis.com/css?family=Alegreya")]
    [:body {:class "landing"}
     [:div {:class "landing-content"}
-     [:div {:class "landing-title"} "Poetree"]
+     [:div {:class "landing-title"}
+      [:img {:src "images/logo.png"}]]
      [:div {:class "landing-desc"} "colaborative poems"]
      
      [:div {:class "landing-button"
             :onclick "location.href='/feed'"
-            :style "cursor:pointer;"} "Show me"]]
+            :style "cursor:pointer;"} "Show me!"]]
     
     ])
   
   )
+
+(defn header [auth]
+  [:div {:class "header"}
+   [:div {:class "header_button"
+          :onclick "location.href='/feed'"
+          :style "cursor:pointer;"}
+    [:img {:src "/images/poetree_logo_small.png"
+           :height "30"}]
+    ]
+   
+   ;; User auth
+   [:div {:class "header_button"}
+    (if auth
+      (seq
+       [(get-in auth [:identity :screen_name])
+        [:a {:href "/logout"} "Logout"]]) ;; shuld be icon)
+      [:a {:href "/login"} "Sign In"])]
+   
+   ;; Create New
+   [:div {:class "header_button"
+          :onclick "location.href='/fork'"
+          :style "cursor:pointer;"} 
+    [:span "New Poem"]
+    ]
+
+   [:div {:class "header_button"
+          :onclick "location.href='/random'"
+          :style "cursor:pointer;"} 
+    "Random"
+    ]
+
+   ])
 
 (defn page
   ([title content]
@@ -30,34 +63,11 @@
    (html5
     [:head
      [:title title]
-     (include-css "css/poetree.css")
+     (include-css "/css/poetree.css")
      (include-css "https://fonts.googleapis.com/css?family=Alegreya")
      ]
     [:body {:class "mainbody"}
-     [:div {:class "header"}
-
-      ;; User auth
-      [:div {:class "header_button"}
-       (if authentication
-         (seq
-          [(get-in authentication [:identity :screen_name])
-           [:a {:href "/logout"} "Logout"]]) ;; shuld be icon)
-         [:a {:href "/login"} "Login"])]
-
-      ;; Create New
-      [:div {:class "header_button"
-             :onclick "location.href='/fork'"
-             :style "cursor:pointer;"} 
-       "+"
-       ]
-
-      [:div {:class "header_button"
-             :onclick "location.href='/random'"
-             :style "cursor:pointer;"} 
-       "Random"
-       ]
-
-      ]
+     (header authentication)
 
      [:div {:class "container"} content ]])))
 
@@ -76,28 +86,28 @@
          :let [lines (:lines f)]]
      ;;
      [:div {:class "poem"}
-      (for [line lines :let [author (:author line)]]
+      (for [line lines :let [author (:username line)]]
         [:div {:class "line"}
          (:content line)
          " "
-         [:a {:href (:link author)
+         [:a {:href (format "https://twitter.com/%s" author)
               :alt (:name author)}
-          [:img {:src "images/poetree_user.png"
+          [:img {:src (:profile_image_url line)
                  :width "24" :height "24"}]]
          " "
-         [:a {:href (format "/feed/%s" (:id line))
-              :alt "View"}
-          [:img {:src "images/poetree_view.png"
-                 :width "24" :height "20"}]]
+         [:a {:href (format "/feed/%s" (:id line))}
+          [:img {:src "/images/poetree_view.png"
+                 :alt "View"
+                 :width "24" :height "18"}]]
          " "
-         [:a {:href (format "/fork/%s" (:id line))
-              :alt "Fork"}
-          [:img {:src "images/poetree_fork.png"
-                 :width "20" :height "24"}]]
+         [:a {:href (format "/fork/%s" (:id line))}
+          [:img {:src "/images/poetree_fork.png"
+                 :alt "Fork"
+                 :width "18" :height "24"}]]
          " "
-         [:a {:href (format "/likers/%s" (:id line))
-              :alt "Like"}
-          [:img {:src "images/poetree_like.png"
+         [:a {:href (format "/likers/%s" (:id line))}
+          [:img {:src "/images/poetree_like.png"
+                 :alt "Like"
                  :width "24" :height "24"}]]
          ]
         )
