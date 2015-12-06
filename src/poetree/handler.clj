@@ -2,6 +2,7 @@
   (:require [poetree.service :as service]
             [poetree.templates :as t]
             [poetree.oauth :as poetree-oauth]
+            [poetree.twitter :as tw]
             [poetree.db :as db]
 
             [compojure.core :refer :all]
@@ -36,22 +37,27 @@
         (= "/logged" (:uri req))
         (when-let [request-token (get-in req [:session :oauth-request-token])]
           (when-let [access-token (oauth-client/access-token
-                                   consumer
-                                   request-token
-                                   (get-in req [:params :oauth_verifier]))]
+                                    consumer
+                                    request-token
+                                    (get-in req [:params :oauth_verifier]))]
+
             (if (db/get-user-by-name (:screen_name access-token))
               (db/update-user (:screen_name access-token)
                               (:oauth_token access-token)
                               (:oauth_token_secret access-token))
-              (db/add-user (:screen_name access-token)
-                           (:oauth_token access-token)
-                           (:oauth_token_secret access-token)))
+
+              (let [oauth-creds (tw/make-oauth-creds consumer access-token)
+                    profile-img-url (tw/get-user-image oauth-creds (:screen_name access-token))]
+                (db/add-user (:screen_name access-token)
+                             profile-img-url
+                             (:oauth_token access-token)
+                             (:oauth_token_secret access-token))))
             (friend/merge-authentication
-             (redirect (or
-                        (get-in req [:session :referer])
-                        "/"))
-             (friend-workflows/make-auth
-              (credential-fn access-token)))))))))
+              (redirect (or
+                          (get-in req [:session :referer])
+                          "/"))
+              (friend-workflows/make-auth
+                (credential-fn access-token)))))))))
 
 (defroutes login-logout-routes
   (GET "/login" request
@@ -80,7 +86,11 @@
      (t/view-feed (service/poem (Long/parseLong id)))
      (friend/current-authentication request)))
   (POST "/post" [] "Post works")
-  (GET "/fork" [] (t/fork-view {}))
+  (GET "/fork" [] (t/page
+                   "Create Poem"
+                   (t/fork-view
+                    {}
+                    (friend/current-authentication))))
   (GET "/fork/:id" [id :as request]
     (t/page
      "Edit Poem"
@@ -88,15 +98,25 @@
       (first (service/poem (Long/parseLong id)))
       (friend/current-authentication request))
      (friend/current-authentication request)))
-  (POST "/fork/:id" [id content :as request]
-    (let [new-line-id (service/add-poem
-                       content
-                       (Long/parseLong id)
-                       (service/user-id-by-name
-                        (get-in
-                         (friend/current-authentication
-                          request)
-                         [:identity :screen_name])))]
+  (POST "/fork" [content0 content1 content2 :as request]
+    (let [lines (filter identity [content0 content1 content2])
+          new-line-id (service/add-poem-with-lines lines
+                                                   nil
+                                                   (service/user-id-by-name
+                                                    (get-in
+                                                     (friend/current-authentication
+                                                      request)
+                                                     [:identity :screen_name])))]
+      (redirect (str "/feed/" new-line-id))))
+  (POST "/fork/:id" [id content0 content1 content2 :as request]
+    (let [lines (filter identity [content0 content1 content2])
+          new-line-id (service/add-poem-with-lines lines
+                                                   (Long/parseLong id)
+                                                   (service/user-id-by-name
+                                                    (get-in
+                                                     (friend/current-authentication
+                                                      request)
+                                                     [:identity :screen_name])))]
       (redirect (str "/feed/" new-line-id))))
   (GET "/users" [] (service/users))
   (GET "/random" []

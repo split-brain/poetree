@@ -14,7 +14,7 @@
     (pk :id)
     (table :users)
     (database db)
-    (entity-fields :id :name :access_token :access_token_secret)
+    (entity-fields :id :name :profile_image_url :access_token :access_token_secret)
     )
 
   (defentity poems
@@ -37,7 +37,9 @@
     (belongs-to users) ;; likers.users_id = users.id
     (belongs-to poems) ;; likers.poems_id = poems.id
 
-    ))
+    )
+
+  )
 
 
 
@@ -65,16 +67,21 @@
 ;; POEMS
 
 (defn get-poems []
-  (select poems))
+  ; TODO(dima) - remove isers_id2 from results
+  (exec-raw db
+            ["select * from poems p
+              inner join (select id as users_id, name as username, profile_image_url from users) u
+              on p.users_id = u.users_id"] :results))
 
 (defn get-poems-for-user [userid]
   (select poems
           (where {:users_id userid})))
 
 (defn add-user
-  ([name] (add-user name nil))
-  ([name access-token access-token-secret]
+  ([name] (add-user name nil nil nil))
+  ([name profile-image-url access-token access-token-secret]
    (insert users (values {:name name
+                          :profile_image_url profile-image-url
                           :access_token access-token
                           :access_token_secret access-token-secret}))))
 
@@ -103,9 +110,14 @@ select distinct * from poem_tree"]
     (exec-raw db [sql [id]] :results)))
 
 (defn add-poem [content owner-id user-id]
-  (let [sql "insert into poems (line_order, type, content, lang, users_id, poems_id)
-             select (poems.line_order + 1), poems.type, ?, poems.lang, ?, ?
-             from poems
-             where poems.id = ?
-             RETURNING id"]
-    (exec-raw db [sql [content user-id owner-id owner-id]] :results)))
+  (if owner-id
+    (let [sql "insert into poems (line_order, type, content, lang, users_id, poems_id)
+               select (poems.line_order + 1), poems.type, ?, poems.lang, ?, ?
+               from poems
+               where poems.id = ?
+               RETURNING id"]
+      (exec-raw db [sql [content user-id owner-id owner-id]] :results))
+    (let [sql "insert into poems (line_order, type, content, lang, users_id, poems_id)
+               values (1, 'HAIKU', ?, 'EN', ?, null)
+               returning id"]
+      (exec-raw db [sql [content user-id]] :results))))

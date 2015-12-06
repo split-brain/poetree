@@ -77,13 +77,13 @@
          :let [lines (:lines f)]]
      ;;
      [:div {:class "poem"}
-      (for [line lines :let [author (:author line)]]
+      (for [line lines :let [author (:username line)]]
         [:div {:class "line"}
          (:content line)
          " "
-         [:a {:href (:link author)}
-          [:img {:src "images/poetree_user.png"
-                 :alt (:name author)
+         [:a {:href (format "https://twitter.com/%s" author)
+              :alt (:name author)}
+          [:img {:src (:profile_image_url line)
                  :width "24" :height "24"}]]
          " "
          [:a {:href (format "/feed/%s" (:id line))}
@@ -112,6 +112,18 @@
 (defn view-poem [poem]
   "TODO")
 
+
+;; Move somewhere else
+(defn max-lines-number-by-type [type]
+  (cond
+    (= type "HAIKU") 3
+    (= type "POROX") 4
+    :else 3))
+
+(defn max-lines-number-for-poem [poem]
+  (let [[line & _] (:lines poem)]
+    (max-lines-number-by-type (:type line))))
+
 (defn fork-view [poem authentication]
   [:div
    (for [line (:lines poem)]
@@ -122,10 +134,15 @@
        "line"
        (:content line))])
    (form-to
-    [:post (str "/fork/" (:id (last (:lines poem))))]
+    [:post (str "/fork" (if-let [id (:id (last (:lines poem)))]
+                          (str "/" id) ""))]
     (anti-forgery-field)
-    [:div
-     (text-field {:size 50} "content")]
+    (for [new-line-number (range (- (max-lines-number-for-poem
+                                     poem)
+                                    (let [lines (:lines poem)]
+                                      (if lines (count lines) 0))))]
+      [:div
+       (text-field {:size 50} (str "content" new-line-number))])
     (if authentication
       [:div (submit-button "Add poem")]
       [:div (submit-button "Add poem anonymously")]))

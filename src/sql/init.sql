@@ -5,6 +5,7 @@ drop table if exists likers cascade;
      create table users (
   id        bigserial primary key,
   name      varchar(100) not null unique, -- twitter name
+  profile_image_url text null,
   access_token text, -- should be not null, but leave as is for now
   access_token_secret text
 );
