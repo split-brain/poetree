@@ -135,7 +135,7 @@
         )
       (when (= (count lines) 3)
         (tweet-button
-         (format "http://%s:8080/feed/" (utils/get-hostname) (:id (last lines)))
+         (format "http://%s:8080/feed/%d" (utils/get-hostname) (:id (last lines)))
          "Check out this poem at Poetree!"))
       ]
 
