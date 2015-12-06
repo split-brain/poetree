@@ -71,7 +71,7 @@
 
 .mainbody {
     margin: 0px;
-    background-image: url("http://bgfons.com/upload/beton_texture974.jpg");
+    background-image: url("/images/beton.jpg");
     background-repeat: no-repeat;
     background-position: center;
     background-attachment: fixed;
@@ -81,7 +81,7 @@
 
 .landing {
     margin: 0px;
-    background-image: url("http://openwalls.com/image/11476/abstract_bonsai_tree_1920x1200.jpeg");
+    background-image: url("/images/bonsai.jpeg");
     background-repeat: no-repeat;
     background-position: center;
     background-attachment: fixed;
