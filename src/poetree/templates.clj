@@ -116,7 +116,7 @@
 (defn max-lines-number-by-type [type]
   (cond
     (= type "HAIKU") 3
-    (= type "POROX") 4
+    (= type "POROX") 3 ;; should be 4, but left as is for now
     :else 3))
 
 (defn max-lines-number-for-poem [poem]
@@ -127,7 +127,7 @@
   [:div
    (for [line (:lines poem)]
      [:div
-      (text-field
+      (text-area
        {:readonly true
         :size 50}
        "line"
@@ -141,7 +141,7 @@
                                     (let [lines (:lines poem)]
                                       (if lines (count lines) 0))))]
       [:div
-       (text-field {:size 50} (str "content" new-line-number))])
+       (text-area {:size 50} (str "content" new-line-number))])
     (if authentication
       [:div (submit-button "Add poem")]
       [:div (submit-button "Add poem anonymously")]))

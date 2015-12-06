@@ -24,6 +24,9 @@
             [cemerick.friend.workflows :as friend-workflows]
 
             [oauth.client :as oauth-client]
+
+            [clojure.string :as str]
+            [clojure.core.match :refer [match]]
             ))
 
 (def consumer (poetree-oauth/make-app-consumer))
@@ -67,6 +70,27 @@
   (friend/logout (ANY "/logout" []
                    (redirect "/"))))
 
+(defn valid-lines? [lines]
+  (match (vec (map #(if (str/blank? %) :empty :not-empty) lines))
+         [:empty]                          false
+         [:empty      _]                   false
+         [:not-empty :empty :not-empty]    false
+         [:not-empty :empty :empty]        true
+         :else                             true))
+
+(defn fork-poem [owner-id lines request]
+  (if (valid-lines? lines)
+    (let [new-line-id (service/add-poem-with-lines
+                       (remove str/blank? lines)
+                       owner-id
+                       (service/user-id-by-name
+                        (get-in
+                         (friend/current-authentication
+                          request)
+                         [:identity :screen_name])))]
+      (redirect (str "/feed/" new-line-id)))
+    (redirect "/error")))
+
 (defroutes app-routes
   (GET "/" [] (t/landing))
   (GET "/feed" request
@@ -93,29 +117,21 @@
       (friend/current-authentication request))
      (friend/current-authentication request)))
   (POST "/fork" [content0 content1 content2 :as request]
-    (let [lines (filter identity [content0 content1 content2])
-          new-line-id (service/add-poem-with-lines lines
-                                                   nil
-                                                   (service/user-id-by-name
-                                                    (get-in
-                                                     (friend/current-authentication
-                                                      request)
-                                                     [:identity :screen_name])))]
-      (redirect (str "/feed/" new-line-id))))
+    (fork-poem nil
+               (filter identity
+                       [content0 content1 content2])
+               request))
   (POST "/fork/:id" [id content0 content1 content2 :as request]
-    (let [lines (filter identity [content0 content1 content2])
-          new-line-id (service/add-poem-with-lines lines
-                                                   (Long/parseLong id)
-                                                   (service/user-id-by-name
-                                                    (get-in
-                                                     (friend/current-authentication
-                                                      request)
-                                                     [:identity :screen_name])))]
-      (redirect (str "/feed/" new-line-id))))
+    (fork-poem (Long/parseLong id)
+               (filter identity
+                       [content0 content1 content2])
+               request))
   (GET "/users" [] (service/users))
   (GET "/random" []
     ;; rewrite link
     "TODO: Implement")
+  (ANY "/error" []
+    "Error happened")
 
   (GET "/like/:id" [id] "NOT IMPLEMENTED")
   (GET "/likers/:id" [id] (service/likers id))
