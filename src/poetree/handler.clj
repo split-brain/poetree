@@ -73,12 +73,17 @@
 
 (defroutes login-logout-routes
   (GET "/login" request
+    (println "[LOGIN] At /login")
+    (println "[LOGIN] Request: " request)
     (let [request-token (oauth-client/request-token
                          consumer
                          (callback-url))
+          _ (println "[LOGIN] Received request token: " request-token)
           approval-uri (oauth-client/user-approval-uri consumer (:oauth_token
                                                                  request-token))
+          _ (println "[LOGIN] Extracted approval-uri: " approval-uri)
           resp (redirect approval-uri)]
+      (println "[LOGIN] Redirecting to approval uri")
       (update-in resp [:session] assoc
                  :oauth-request-token request-token
                  :referer (get (:headers request) "referer"))))
