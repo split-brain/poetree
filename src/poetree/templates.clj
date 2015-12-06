@@ -4,17 +4,20 @@
   (:use [hiccup.page :only (html5 include-css include-js)]
         [ring.util.anti-forgery :only [anti-forgery-field]]))
 
+
 (defn landing []
   (html5
    [:head
     [:title "Poetree"]
-    (include-css "css/poetree.css")
+    [:link {:rel "shortcut icon" :href "images/favicon.ico"}]
+    (include-css "/css/poetree.css")
     (include-css "https://fonts.googleapis.com/css?family=Alegreya")]
    [:body {:class "landing"}
     [:div {:class "landing-content"}
      [:div {:class "landing-title"}
-      [:img {:src "images/logo.png"}]]
-     [:div {:class "landing-desc"} "colaborative poems"]
+      [:img {:src "/images/logo.png"
+             :width "500"}]]
+     #_[:div {:class "landing-desc"} "colaborative poems"]
      
      [:div {:class "landing-button"
             :onclick "location.href='/feed'"
@@ -63,6 +66,7 @@
    (html5
     [:head
      [:title title]
+     [:link {:rel "shortcut icon" :href "images/favicon.ico"}]
      (include-css "/css/poetree.css")
      (include-css "https://fonts.googleapis.com/css?family=Alegreya")
      ]
