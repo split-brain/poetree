@@ -24,6 +24,7 @@
                         (nil? parent) {:lines (reverse acc)}
                         true (let [parent-content (get state parent)]
                                (recur (:poems_id parent-content) (conj acc parent-content))))))))]
+    (println poems-view)
     poems-view
     ))
 

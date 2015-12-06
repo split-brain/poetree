@@ -150,13 +150,11 @@
                request))
   (GET "/users" [] (service/users))
   (GET "/random" request
-    (t/page
-     "Poem Feed"
-     (t/view-feed (service/random-finished-poem))
-     (friend/current-authentication request)))
+       (let [id (get (last (:lines (first (service/random-finished-poem)))) :id)]
+         (redirect (str "/feed/" id))))
 
-  (GET "/like/:id" [id] "NOT IMPLEMENTED")
-  (GET "/likers/:id" [id] (service/likers id))
+  (GET "/like/:id" [id] (redirect "/error"))
+  (GET "/likers/:id" [id] (redirect "/error"))
 
   (ANY "/error" [request]
        (t/page "Error" (t/error-page) (friend/current-authentication request)))
